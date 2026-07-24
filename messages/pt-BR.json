@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "Atlasia — descubra o mundo",
+    "description": "Explore países, capitais e informações geográficas em um atlas moderno, rápido e acessível."
+  },
+  "HomePage": {
+    "eyebrow": "Atlasia · catálogo vivo",
+    "title": "Descubra o mundo como quem abre um atlas de explorador.",
+    "description": "Navegue por países, capitais e informações essenciais com uma leitura clara, rápida e feita para curiosos de geografia."
+  },
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "portuguese": "Português",
+    "english": "Inglês"
+  }
+}

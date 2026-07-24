@@ -17,6 +17,7 @@ Atlasia será público, sem autenticação e sem banco de dados. A REST Countrie
 - Manter rotas finas e organizar regras de país por feature.
 - Dividir trabalho em incrementos pequenos, testáveis e adequados para commits separados.
 - Manter o domínio testável sem Next.js, rede ou componentes React.
+- Aplicar segurança proporcional a um site público sem autenticação, protegendo browser, credenciais e fronteiras externas.
 - Alcançar WCAG 2.2 AA e orçamento Lighthouse definido para mobile.
 
 **Non-Goals:**
@@ -42,9 +43,8 @@ public/
   brand/
 src/
   app/
-    layout.tsx
     [locale]/
-      layout.tsx
+      layout.tsx    # root layout localizado
       page.tsx
       loading.tsx
       error.tsx
@@ -112,7 +112,7 @@ Funções terão uma responsabilidade, nomes orientados à intenção e contrato
 
 ### 5. Internacionalização prefixada desde a raiz
 
-`next-intl` controlará `pt-BR` e `en`, com `pt-BR` como padrão. `src/proxy.ts` fará negociação por `Accept-Language` e redirecionará URLs sem locale. O conteúdo público ficará em `src/app/[locale]`; somente esse layout instalará `NextIntlClientProvider`.
+`next-intl` controlará `pt-BR` e `en`, com `pt-BR` como padrão. `src/proxy.ts` fará negociação por `Accept-Language` e redirecionará URLs sem locale. O conteúdo público ficará em `src/app/[locale]`; esse segmento será o root layout localizado e instalará `NextIntlClientProvider`, permitindo definir `html lang` corretamente sem leitura dinâmica de headers.
 
 Links usarão wrappers de `src/i18n/navigation.ts`. O seletor de idioma preservará rota e código do país atual. Mensagens ficarão em arquivos JSON por locale. Números e nomes de país usarão APIs `Intl` com o locale ativo.
 
@@ -171,6 +171,14 @@ Cada locale terá `lang`, canonical e alternates corretos. Perfis terão metadat
 
 Testes unitários cobrirão validação, normalização, localização e filtro; testes de componente cobrirão estados críticos e anúncios acessíveis; smoke tests ponta a ponta cobrirão catálogo, teclado, troca de idioma e perfil. Axe e Lighthouse complementarão testes, sem substituir verificação manual.
 
+### 14. Segurança proporcional e defesa em profundidade
+
+O site não possui autenticação, banco ou mutações públicas, portanto controles de sessão, CSRF e autorização não serão adicionados sem uma superfície correspondente. A credencial da REST Countries permanecerá em módulo `server-only`, a URL externa será fixa e validada, parâmetros de rota serão tratados como entrada não confiável e respostas externas serão validadas antes do uso.
+
+O Next.js enviará CSP, `Permissions-Policy`, `Referrer-Policy`, proteção contra MIME sniffing, clickjacking e HSTS em produção, além de ocultar `X-Powered-By`. A CSP inicial preservará geração estática; nonce por request foi rejeitado porque forçaria renderização dinâmica em todas as páginas. Os hosts de imagem serão restringidos após confirmar o contrato real da API, sem liberar scripts ou conexões externas desnecessárias.
+
+Dependências serão verificadas com auditoria reproduzível, arquivos de ambiente permanecerão ignorados e os fluxos de erro nunca exibirão credencial, payload sensível ou detalhes internos. `proxy.ts`, parâmetros dinâmicos e chamadas `fetch` externas receberão revisão de segurança específica antes da entrega.
+
 ## Risks / Trade-offs
 
 - [REST Countries exigir chave, limitar cota ou alterar contrato] → Manter credencial server-only, projeções mínimas, cache diário, schemas Zod e erro de domínio.
@@ -183,6 +191,8 @@ Testes unitários cobrirão validação, normalização, localização e filtro;
 - [Página sem API durante desenvolvimento] → Documentar variável de ambiente e fornecer estados de erro; fixtures existirão somente em testes.
 - [Lighthouse variar entre execuções] → Rodar build de produção em ambiente controlado, guardar relatórios e usar orçamento junto às métricas individuais.
 - [Schema gerar rich result enganoso] → Marcar somente conteúdo visível e validar no Schema.org Validator e Google Rich Results Test quando aplicável.
+- [CSP quebrar recursos legítimos ou ficar permissiva demais] → Testar em build de produção e restringir diretivas a partir dos hosts realmente usados, mantendo relatório claro das exceções.
+- [Credencial ou detalhes da API vazarem ao cliente] → Isolar integração em módulo `server-only`, validar ambiente e revisar bundles, mensagens de erro e logs.
 
 ## Migration Plan
 

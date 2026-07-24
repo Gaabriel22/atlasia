@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "Atlasia — discover the world",
+    "description": "Explore countries, capitals, and geographic facts in a modern, fast, and accessible atlas."
+  },
+  "HomePage": {
+    "eyebrow": "Atlasia · living catalog",
+    "title": "Discover the world like an explorer opening an atlas.",
+    "description": "Browse countries, capitals, and essential facts through a clear, fast reading experience made for geography enthusiasts."
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "portuguese": "Portuguese",
+    "english": "English"
+  }
+}

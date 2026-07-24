@@ -9,13 +9,13 @@
 
 ## 2. Internacionalização desde a raiz
 
-- [ ] 2.1 Criar configuração central de locales `pt-BR` e `en`, com `pt-BR` padrão e pathnames localizados
-- [ ] 2.2 Criar request config, wrappers de navegação e `src/proxy.ts` do next-intl
-- [ ] 2.3 Criar dicionários `messages/pt-BR.json` e `messages/en.json` com namespaces iniciais equivalentes
-- [ ] 2.4 Criar root layout mínimo e layout `[locale]` com validação de locale, provider, `lang` correto e geração estática de locales
-- [ ] 2.5 Criar seletor de idioma acessível que preserve a rota equivalente e parâmetros dinâmicos
-- [ ] 2.6 Adicionar teste automatizado de paridade estrutural entre os dois dicionários
-- [ ] 2.7 Validar redirecionamento por locale, navegação e build antes do checkpoint de i18n
+- [x] 2.1 Criar configuração central de locales `pt-BR` e `en`, com `pt-BR` padrão e pathnames localizados
+- [x] 2.2 Criar request config, wrappers de navegação e `src/proxy.ts` do next-intl
+- [x] 2.3 Criar dicionários `messages/pt-BR.json` e `messages/en.json` com namespaces iniciais equivalentes
+- [x] 2.4 Criar root layout mínimo e layout `[locale]` com validação de locale, provider, `lang` correto e geração estática de locales
+- [x] 2.5 Criar seletor de idioma acessível que preserve a rota equivalente e parâmetros dinâmicos
+- [x] 2.6 Adicionar teste automatizado de paridade estrutural entre os dois dicionários
+- [x] 2.7 Validar redirecionamento por locale, navegação e build antes do checkpoint de i18n
 
 ## 3. Arquitetura, ambiente e domínio
 
@@ -78,13 +78,21 @@
 - [ ] 8.6 Verificar que dados estruturados refletem conteúdo visível e validar amostras no Schema.org Validator e ferramenta aplicável do Google
 - [ ] 8.7 Revisar headings, links internos, títulos, descrições, canonicals, hreflang e indexabilidade nos dois locales
 
-## 9. Acessibilidade, performance e entrega
+## 9. Segurança
 
-- [ ] 9.1 Adicionar axe aos testes de componentes e rotas representativas e corrigir violações detectadas
-- [ ] 9.2 Executar auditoria manual WCAG 2.2 AA de teclado, foco, landmarks, headings, alternativas, contraste, zoom e reduced motion
-- [ ] 9.3 Configurar auditoria Lighthouse reproduzível sobre build de produção para catálogo e um perfil em mobile
-- [ ] 9.4 Cumprir budgets Lighthouse de Performance ≥90, Accessibility 100, Best Practices ≥95 e SEO 100
-- [ ] 9.5 Verificar LCP ≤2,5 s, INP ≤200 ms e CLS ≤0,1 e corrigir causas medidas sem otimização especulativa
-- [ ] 9.6 Executar smoke tests Playwright para catálogo, busca, filtro, navegação, troca de idioma, perfil e 404
-- [ ] 9.7 Atualizar README com visão, arquitetura, estrutura, variáveis de ambiente, scripts, decisões de i18n e instruções de deploy
-- [ ] 9.8 Executar suite final de lint, typecheck, testes, e2e, build e Lighthouse e registrar resultados do MVP
+- [x] 9.1 Configurar CSP estática e headers defensivos globais sem sacrificar a geração estática
+- [ ] 9.2 Isolar ambiente e credencial REST Countries em módulo `server-only` validado, sem exposição em bundles, erros ou logs
+- [ ] 9.3 Restringir CSP e hosts de imagem ao contrato real observado e validar headers em build de produção
+- [ ] 9.4 Auditar parâmetros dinâmicos, `proxy.ts` e fetch externo contra injeção, SSRF e exposição de informações
+- [ ] 9.5 Executar auditoria de dependências e verificação de secrets antes da entrega, resolvendo achados de alto risco
+
+## 10. Acessibilidade, performance e entrega
+
+- [ ] 10.1 Adicionar axe aos testes de componentes e rotas representativas e corrigir violações detectadas
+- [ ] 10.2 Executar auditoria manual WCAG 2.2 AA de teclado, foco, landmarks, headings, alternativas, contraste, zoom e reduced motion
+- [ ] 10.3 Configurar auditoria Lighthouse reproduzível sobre build de produção para catálogo e um perfil em mobile
+- [ ] 10.4 Cumprir budgets Lighthouse de Performance ≥90, Accessibility 100, Best Practices ≥95 e SEO 100
+- [ ] 10.5 Verificar LCP ≤2,5 s, INP ≤200 ms e CLS ≤0,1 e corrigir causas medidas sem otimização especulativa
+- [ ] 10.6 Executar smoke tests Playwright para catálogo, busca, filtro, navegação, troca de idioma, perfil e 404
+- [ ] 10.7 Atualizar README com visão, arquitetura, estrutura, variáveis de ambiente, scripts, decisões de i18n, segurança e instruções de deploy
+- [ ] 10.8 Executar suite final de lint, typecheck, testes, e2e, build, auditoria de segurança e Lighthouse e registrar resultados do MVP

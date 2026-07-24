@@ -19,6 +19,7 @@ Atlasia precisa renascer como projeto de portfólio funcional, profissional e su
 - Definir metas Lighthouse e Core Web Vitals verificáveis para impedir regressões de performance.
 - Adicionar JSON-LD Schema.org fiel ao conteúdo visível para site, catálogo, breadcrumbs e perfis de país.
 - Aplicar Clean Architecture de forma proporcional, Clean Code e dependências apontando do framework/adaptadores para o domínio.
+- Aplicar segurança por padrão com credenciais server-only, validação de entradas, headers defensivos, CSP compatível com prerenderização e auditoria de dependências.
 - Organizar a implementação em camadas orientadas ao domínio e em etapas pequenas para permitir um commit revisável por etapa.
 - Manter modal de detalhes fora do primeiro ciclo; a rota dedicada será a experiência canônica. Um modal com rota interceptada poderá ser adicionado depois sem substituir a página.
 
@@ -41,6 +42,7 @@ Nenhuma. O projeto ainda não possui especificações de capacidades existentes.
 - Afeta a aplicação Next.js atual em `app/` e adiciona camadas de domínio, dados, componentes e validação.
 - Adiciona shadcn/ui, Zod e next-intl às dependências do projeto.
 - Exige uma variável de ambiente server-only para a credencial da REST Countries.
+- Adiciona políticas HTTP de segurança e verificações contra exposição de secrets e dependências vulneráveis.
 - Reutiliza `atlasia-logo.png` e favicon de `Atlasia-old`, sem modificar o projeto antigo.
 - Estabelece rotas públicas localizadas em `/[locale]` e `/[locale]/countries/[slug]`, com redirecionamento da raiz para o locale adequado, além de arquivos de metadata e estados especiais do App Router.
 - Não inclui autenticação de usuários, banco de dados, favoritos, quiz, progresso ou internacionalização neste primeiro ciclo.

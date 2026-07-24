@@ -103,3 +103,25 @@ The system MUST pass lint, TypeScript validation, automated tests and production
 #### Scenario: Release candidate validation
 - **WHEN** a development phase is prepared for commit
 - **THEN** all quality commands relevant to that phase complete successfully
+
+### Requirement: Secure public delivery
+The system SHALL keep credentials and external data access server-only, validate untrusted input, avoid exposing internal failures and send defensive browser security headers on public responses.
+
+#### Scenario: Browser requests a public route
+- **WHEN** Atlasia serves a localized page
+- **THEN** the response includes a Content Security Policy, clickjacking protection, MIME sniffing protection, a restrictive permissions policy and a privacy-preserving referrer policy
+
+#### Scenario: Production is accessed over HTTPS
+- **WHEN** a production response is served
+- **THEN** it instructs compatible browsers to continue using HTTPS
+
+#### Scenario: External country data fails
+- **WHEN** REST Countries returns an invalid payload or transport error
+- **THEN** the user receives a controlled localized state without credentials, raw payloads or internal diagnostics
+
+### Requirement: Security verification
+The system MUST verify dependency vulnerabilities, accidental secret exposure and security-sensitive Next.js configuration before release.
+
+#### Scenario: Release security review
+- **WHEN** the MVP is prepared for deployment
+- **THEN** dependency audit, secret checks, security header checks and focused review of proxy, dynamic parameters and outbound fetches complete with no unresolved high-risk finding
