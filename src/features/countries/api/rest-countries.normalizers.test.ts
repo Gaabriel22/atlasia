@@ -15,8 +15,11 @@ import {
 describe("REST Countries normalizers", () => {
   it("maps the projected catalog DTO to a stable summary", () => {
     const response = restCountriesSummaryResponseSchema.parse(summaryFixture)
+    const country = restCountriesSummaryCountrySchema.parse(
+      response.data.objects[0],
+    )
 
-    expect(normalizeCountrySummary(response.data.objects[0])).toEqual({
+    expect(normalizeCountrySummary(country)).toEqual({
       code: "CA",
       alpha3Code: "CAN",
       name: "Canada",

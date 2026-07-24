@@ -29,12 +29,12 @@
 
 ## 4. Integração REST Countries
 
-- [ ] 4.1 Implementar cliente server-only para catálogo com projeção mínima de campos, autenticação e validação Zod
-- [ ] 4.2 Implementar cliente server-only para perfil por código ISO com projeção detalhada e validação Zod
-- [ ] 4.3 Configurar revalidação diária, tags de cache e memoização por request nas queries de país
-- [ ] 4.4 Mapear respostas HTTP e falhas de parsing para os erros de domínio sem vazar informações sensíveis
-- [ ] 4.5 Testar cliente e queries com fetch simulado para sucesso, ausência, autenticação, rate limit, rede e schema inválido
-- [ ] 4.6 Executar uma verificação manual autenticada contra a API atual e ajustar somente o adaptador ao contrato observado
+- [x] 4.1 Implementar cliente server-only para catálogo com projeção mínima de campos, autenticação e validação Zod
+- [x] 4.2 Implementar cliente server-only para perfil por código ISO com projeção detalhada e validação Zod
+- [x] 4.3 Configurar revalidação diária, tags de cache e memoização por request nas queries de país
+- [x] 4.4 Mapear respostas HTTP e falhas de parsing para os erros de domínio sem vazar informações sensíveis
+- [x] 4.5 Testar cliente e queries com fetch simulado para sucesso, ausência, autenticação, rate limit, rede e schema inválido
+- [x] 4.6 Executar uma verificação manual autenticada contra a API atual e ajustar somente o adaptador ao contrato observado
 
 ## 5. Sistema visual Atlasia
 

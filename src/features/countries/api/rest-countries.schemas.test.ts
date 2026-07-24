@@ -4,6 +4,7 @@ import detailFixture from "@/features/countries/api/__fixtures__/rest-countries-
 import summaryFixture from "@/features/countries/api/__fixtures__/rest-countries-summary.json"
 import {
   restCountriesDetailResponseSchema,
+  restCountriesSummaryCountrySchema,
   restCountriesSummaryResponseSchema,
 } from "@/features/countries/api/rest-countries.schemas"
 
@@ -20,12 +21,10 @@ describe("REST Countries v5 schemas", () => {
     expect(result.success).toBe(true)
   })
 
-  it("rejects a response without a stable country identity", () => {
-    const result = restCountriesSummaryResponseSchema.safeParse({
-      data: {
-        objects: [{ names: { common: "Canada" }, codes: {} }],
-        meta: { total: 1 },
-      },
+  it("rejects a catalog entity without a stable country identity", () => {
+    const result = restCountriesSummaryCountrySchema.safeParse({
+      names: { common: "Abkhazia" },
+      codes: { alpha_2: "", alpha_3: "" },
     })
 
     expect(result.success).toBe(false)

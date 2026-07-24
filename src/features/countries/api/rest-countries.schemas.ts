@@ -4,9 +4,26 @@ const nonEmptyStringSchema = z.string().trim().min(1)
 const alpha2CodeSchema = z.string().regex(/^[A-Z]{2}$/)
 const alpha3CodeSchema = z.string().regex(/^[A-Z]{3}$/)
 
-const httpsUrlSchema = z.url().refine((value) => {
-  return new URL(value).protocol === "https:"
-}, "Expected an HTTPS URL")
+const httpsUrlSchema = z
+  .url()
+  .refine((value) => value.startsWith("https://"), "Expected an HTTPS URL")
+
+const optionalHttpsUrlSchema = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  httpsUrlSchema.optional(),
+)
+
+const optionalNonEmptyStringSchema = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  nonEmptyStringSchema.optional(),
+)
+
+function optionalStringSchema(schema: z.ZodString) {
+  return z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    schema.optional(),
+  )
+}
 
 const coordinatesSchema = z
   .object({
@@ -34,16 +51,18 @@ const countryCodesSchema = z
   .object({
     alpha_2: alpha2CodeSchema,
     alpha_3: alpha3CodeSchema,
-    ccn3: z
-      .string()
-      .regex(/^\d{3}$/)
-      .optional(),
-    cioc: alpha3CodeSchema.optional(),
-    fifa: alpha3CodeSchema.optional(),
-    fips: alpha2CodeSchema.optional(),
-    gec: alpha2CodeSchema.optional(),
+    ccn3: optionalStringSchema(z.string().regex(/^\d{3}$/)),
+    cioc: optionalStringSchema(alpha3CodeSchema),
+    fifa: optionalStringSchema(alpha3CodeSchema),
+    fips: optionalStringSchema(alpha2CodeSchema),
+    gec: optionalStringSchema(alpha2CodeSchema),
   })
   .strip()
+
+const catalogCountryCodesSchema = countryCodesSchema.extend({
+  alpha_2: optionalStringSchema(alpha2CodeSchema),
+  alpha_3: optionalStringSchema(alpha3CodeSchema),
+})
 
 const capitalAttributesSchema = z
   .object({
@@ -66,9 +85,9 @@ const capitalSchema = z
 
 const flagSchema = z
   .object({
-    url_png: httpsUrlSchema.optional(),
-    url_svg: httpsUrlSchema.optional(),
-    description: nonEmptyStringSchema.optional(),
+    url_png: optionalHttpsUrlSchema,
+    url_svg: optionalHttpsUrlSchema,
+    description: optionalNonEmptyStringSchema,
   })
   .strip()
 
@@ -132,10 +151,10 @@ const membershipsSchema = z
 
 const linksSchema = z
   .object({
-    official: httpsUrlSchema.optional(),
-    wikipedia: httpsUrlSchema.optional(),
-    open_street_maps: httpsUrlSchema.optional(),
-    google_maps: httpsUrlSchema.optional(),
+    official: optionalHttpsUrlSchema,
+    wikipedia: optionalHttpsUrlSchema,
+    open_street_maps: optionalHttpsUrlSchema,
+    google_maps: optionalHttpsUrlSchema,
   })
   .strip()
 
@@ -149,6 +168,14 @@ export const restCountriesSummaryCountrySchema = z
     population: z.number().int().nonnegative().optional(),
   })
   .strip()
+
+const restCountriesCatalogCountrySchema =
+  restCountriesSummaryCountrySchema.extend({
+    codes: catalogCountryCodesSchema.pick({
+      alpha_2: true,
+      alpha_3: true,
+    }),
+  })
 
 export const restCountriesDetailCountrySchema =
   restCountriesSummaryCountrySchema
@@ -233,7 +260,7 @@ function createResponseSchema<T extends z.ZodType>(countrySchema: T) {
 }
 
 export const restCountriesSummaryResponseSchema = createResponseSchema(
-  restCountriesSummaryCountrySchema,
+  restCountriesCatalogCountrySchema,
 )
 
 export const restCountriesDetailResponseSchema = createResponseSchema(
