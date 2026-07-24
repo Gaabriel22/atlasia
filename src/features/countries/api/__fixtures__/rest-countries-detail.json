@@ -1,0 +1,161 @@
+{
+  "data": {
+    "objects": [
+      {
+        "names": {
+          "common": "Canada",
+          "official": "Canada",
+          "native": {
+            "eng": {
+              "common": "Canada",
+              "official": "Canada"
+            },
+            "fra": {
+              "common": "Canada",
+              "official": "Canada"
+            }
+          }
+        },
+        "codes": {
+          "alpha_2": "CA",
+          "alpha_3": "CAN",
+          "ccn3": "124",
+          "cioc": "CAN",
+          "fifa": "CAN",
+          "fips": "CA",
+          "gec": "CA"
+        },
+        "capitals": [
+          {
+            "name": "Ottawa",
+            "coordinates": {
+              "lat": 45.42,
+              "lng": -75.7
+            },
+            "attributes": {
+              "administrative": false,
+              "constitutional": false,
+              "executive": false,
+              "judicial": false,
+              "legislative": false,
+              "primary": true
+            }
+          }
+        ],
+        "demonyms": {
+          "eng": {
+            "f": "Canadian",
+            "m": "Canadian"
+          },
+          "fra": {
+            "f": "Canadienne",
+            "m": "Canadien"
+          }
+        },
+        "flag": {
+          "url_png": "https://flags.restcountries.com/v5/w640/ca.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ca.svg",
+          "description": "A red maple leaf centered between two red bands."
+        },
+        "region": "Americas",
+        "subregion": "North America",
+        "continents": ["North America"],
+        "landlocked": false,
+        "borders": ["USA"],
+        "area": {
+          "kilometers": 9984670,
+          "miles": 3855101.1
+        },
+        "coordinates": {
+          "lat": 60,
+          "lng": -95
+        },
+        "timezones": [
+          "UTC-08:00",
+          "UTC-07:00",
+          "UTC-06:00",
+          "UTC-05:00",
+          "UTC-04:00",
+          "UTC-03:30"
+        ],
+        "population": 41417056,
+        "languages": [
+          {
+            "bcp47": "en",
+            "iso639_1": "en",
+            "iso639_3": "eng",
+            "name": "English",
+            "native_name": "English"
+          },
+          {
+            "bcp47": "fr",
+            "iso639_1": "fr",
+            "iso639_3": "fra",
+            "name": "French",
+            "native_name": "français"
+          }
+        ],
+        "currencies": [
+          {
+            "code": "CAD",
+            "name": "Canadian dollar",
+            "symbol": "$"
+          }
+        ],
+        "calling_codes": ["1"],
+        "tlds": [".ca"],
+        "cars": {
+          "driving_side": "right",
+          "signs": ["CDN"]
+        },
+        "postal_code": {
+          "format": "@#@ #@#",
+          "regex": "^([ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJKLMNPRSTVWXYZ]) ?(\\d[ABCEGHJKLMNPRSTVWXYZ]\\d)$"
+        },
+        "date": {
+          "start_of_week": "sunday"
+        },
+        "units": {
+          "measurement_system": "metric",
+          "temperature_scale": "Celsius"
+        },
+        "classification": {
+          "dependency": false,
+          "dependency_type": "",
+          "disputed": false,
+          "iso_status": "official",
+          "sovereign": true,
+          "un_member": true,
+          "un_observer": false
+        },
+        "memberships": {
+          "african_union": false,
+          "arab_league": false,
+          "asean": false,
+          "brics": false,
+          "commonwealth": true,
+          "eu": false,
+          "eurozone": false,
+          "g20": true,
+          "g7": true,
+          "nato": true,
+          "oecd": true,
+          "opec": false,
+          "schengen": false,
+          "un": true
+        },
+        "government_type": "Federal parliamentary constitutional monarchy",
+        "links": {
+          "official": "https://www.canada.ca",
+          "wikipedia": "https://en.wikipedia.org/wiki/Canada",
+          "open_street_maps": "https://www.openstreetmap.org/relation/1428125",
+          "google_maps": "https://goo.gl/maps/jmEVLugreeqiZXxbA"
+        }
+      }
+    ],
+    "meta": {
+      "total": 1,
+      "request_id": "fixture-request"
+    }
+  }
+}

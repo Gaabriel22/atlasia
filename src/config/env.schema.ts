@@ -1,0 +1,44 @@
+import { z } from "zod"
+
+const siteUrlSchema = z
+  .url()
+  .refine((value) => {
+    const url = new URL(value)
+    return (
+      (url.protocol === "http:" || url.protocol === "https:") &&
+      url.pathname === "/" &&
+      url.search === "" &&
+      url.hash === ""
+    )
+  }, "SITE_URL must be an HTTP(S) origin without a path, query, or hash")
+  .transform((value) => new URL(value).origin)
+
+export const serverEnvSchema = z
+  .object({
+    SITE_URL: siteUrlSchema,
+    REST_COUNTRIES_API_KEY: z.string().trim().min(1),
+  })
+  .strict()
+  .transform(({ REST_COUNTRIES_API_KEY, SITE_URL }) => ({
+    siteUrl: SITE_URL,
+    restCountriesApiKey: REST_COUNTRIES_API_KEY,
+  }))
+
+export type ServerEnv = z.infer<typeof serverEnvSchema>
+
+type EnvironmentSource = Partial<
+  Pick<NodeJS.ProcessEnv, "REST_COUNTRIES_API_KEY" | "SITE_URL">
+>
+
+export function parseServerEnv(environment: EnvironmentSource): ServerEnv {
+  const result = serverEnvSchema.safeParse({
+    SITE_URL: environment.SITE_URL,
+    REST_COUNTRIES_API_KEY: environment.REST_COUNTRIES_API_KEY,
+  })
+
+  if (!result.success) {
+    throw new Error("Invalid server environment configuration")
+  }
+
+  return result.data
+}

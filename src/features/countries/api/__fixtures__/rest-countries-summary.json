@@ -1,0 +1,41 @@
+{
+  "data": {
+    "objects": [
+      {
+        "names": {
+          "common": "Canada"
+        },
+        "codes": {
+          "alpha_2": "CA",
+          "alpha_3": "CAN"
+        },
+        "capitals": [
+          {
+            "name": "Ottawa",
+            "coordinates": {
+              "lat": 45.42,
+              "lng": -75.7
+            },
+            "attributes": {
+              "primary": true
+            }
+          }
+        ],
+        "flag": {
+          "url_png": "https://flags.restcountries.com/v5/w640/ca.png",
+          "url_svg": "https://flags.restcountries.com/v5/svg/ca.svg",
+          "description": "A red maple leaf centered between two red bands."
+        },
+        "region": "Americas",
+        "population": 41417056
+      }
+    ],
+    "meta": {
+      "total": 1,
+      "count": 1,
+      "limit": 100,
+      "offset": 0,
+      "more": false
+    }
+  }
+}

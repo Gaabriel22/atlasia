@@ -19,13 +19,13 @@
 
 ## 3. Arquitetura, ambiente e domínio
 
-- [ ] 3.1 Criar configuração server-only de ambiente com schema Zod para URL pública e credencial REST Countries
-- [ ] 3.2 Criar schemas Zod externos separados para resumo e detalhe usando payloads reais anonimizados como fixtures
-- [ ] 3.3 Criar schemas e tipos inferidos dos modelos internos `CountrySummary` e `CountryDetail`
-- [ ] 3.4 Implementar normalizadores puros entre contratos externos e modelos internos, com testes de campos completos e ausentes
-- [ ] 3.5 Implementar formatadores localizados de nome, população, área, moeda e demais valores com testes em ambos os locales
-- [ ] 3.6 Criar erros de domínio para autenticação, limite, rede, contrato inválido e país inexistente
-- [ ] 3.7 Revisar grafo de imports para garantir que domínio e utilitários puros não dependem de Next.js, React, rede ou DTO externo
+- [x] 3.1 Criar configuração server-only de ambiente com schema Zod para URL pública e credencial REST Countries
+- [x] 3.2 Criar schemas Zod externos separados para resumo e detalhe usando payloads reais anonimizados como fixtures
+- [x] 3.3 Criar schemas e tipos inferidos dos modelos internos `CountrySummary` e `CountryDetail`
+- [x] 3.4 Implementar normalizadores puros entre contratos externos e modelos internos, com testes de campos completos e ausentes
+- [x] 3.5 Implementar formatadores localizados de nome, população, área, moeda e demais valores com testes em ambos os locales
+- [x] 3.6 Criar erros de domínio para autenticação, limite, rede, contrato inválido e país inexistente
+- [x] 3.7 Revisar grafo de imports para garantir que domínio e utilitários puros não dependem de Next.js, React, rede ou DTO externo
 
 ## 4. Integração REST Countries
 
@@ -81,7 +81,7 @@
 ## 9. Segurança
 
 - [x] 9.1 Configurar CSP estática e headers defensivos globais sem sacrificar a geração estática
-- [ ] 9.2 Isolar ambiente e credencial REST Countries em módulo `server-only` validado, sem exposição em bundles, erros ou logs
+- [x] 9.2 Isolar ambiente e credencial REST Countries em módulo `server-only` validado, sem exposição em bundles, erros ou logs
 - [ ] 9.3 Restringir CSP e hosts de imagem ao contrato real observado e validar headers em build de produção
 - [ ] 9.4 Auditar parâmetros dinâmicos, `proxy.ts` e fetch externo contra injeção, SSRF e exposição de informações
 - [ ] 9.5 Executar auditoria de dependências e verificação de secrets antes da entrega, resolvendo achados de alto risco
