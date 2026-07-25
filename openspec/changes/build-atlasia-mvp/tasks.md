@@ -48,14 +48,14 @@
 
 ## 6. Catálogo e descoberta
 
-- [ ] 6.1 Construir hero editorial localizado com proposta do produto e contagem real de países
-- [ ] 6.2 Construir card de país com `Card`, `Badge` e imagem otimizada para bandeira, nome, capital, região e população
-- [ ] 6.3 Implementar busca pura case-insensitive e accent-insensitive por nome e capital com testes unitários
-- [ ] 6.4 Implementar controles cliente com `InputGroup` e `ToggleGroup`, combinando busca e região sem reload
-- [ ] 6.5 Adicionar contagem de resultados em live region e estados de catálogo vazio, pendente e indisponível
-- [ ] 6.6 Montar grade responsiva com payload resumido, links localizados e tamanhos de imagem apropriados
-- [ ] 6.7 Adicionar testes de componente para cards, filtros, fallback de dados e anúncios de resultado
-- [ ] 6.8 Validar catálogo nos dois idiomas com teclado e viewport mobile antes do checkpoint
+- [x] 6.1 Construir hero editorial localizado com proposta do produto e contagem real de países
+- [x] 6.2 Construir card de país com `Card`, `Badge` e imagem otimizada para bandeira, nome, capital, região e população
+- [x] 6.3 Implementar busca pura case-insensitive e accent-insensitive por nome e capital com testes unitários
+- [x] 6.4 Implementar controles cliente com `InputGroup` e `ToggleGroup`, combinando busca e região sem reload
+- [x] 6.5 Adicionar contagem de resultados em live region e estados de catálogo vazio, pendente e indisponível
+- [x] 6.6 Montar grade responsiva com payload resumido, links localizados e tamanhos de imagem apropriados
+- [x] 6.7 Adicionar testes de componente para cards, filtros, fallback de dados e anúncios de resultado
+- [x] 6.8 Validar catálogo nos dois idiomas com teclado e viewport mobile antes do checkpoint
 
 ## 7. Perfil de país
 
