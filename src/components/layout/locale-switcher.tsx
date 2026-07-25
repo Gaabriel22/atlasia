@@ -50,12 +50,14 @@ export function LocaleSwitcher() {
       variant="outline"
       spacing={0}
       aria-label={t("label")}
+      className="shrink-0"
     >
       {routing.locales.map((option) => (
         <ToggleGroupItem
           key={option}
           value={option}
           aria-label={t(localeLabels[option])}
+          className="min-h-11 min-w-11"
         >
           {option === "pt-BR" ? "PT" : "EN"}
         </ToggleGroupItem>

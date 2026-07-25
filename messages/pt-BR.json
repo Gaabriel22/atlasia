@@ -8,6 +8,24 @@
     "title": "Descubra o mundo como quem abre um atlas de explorador.",
     "description": "Navegue por países, capitais e informações essenciais com uma leitura clara, rápida e feita para curiosos de geografia."
   },
+  "SiteShell": {
+    "skipToContent": "Pular para o conteúdo",
+    "homeLabel": "Atlasia, página inicial",
+    "tagline": "Arquivo geográfico",
+    "languageNavigation": "Seleção de idioma",
+    "footerStatement": "Um atlas contemporâneo para explorar o mundo com clareza.",
+    "footerCoordinates": "Terra · 23°26′"
+  },
+  "RouteStates": {
+    "loading": "Carregando o atlas",
+    "errorTitle": "A rota ficou fora do mapa.",
+    "errorDescription": "Não foi possível concluir esta exploração agora. Tente novamente em alguns instantes.",
+    "retry": "Tentar novamente",
+    "notFoundEyebrow": "Coordenadas perdidas",
+    "notFoundTitle": "Este lugar não apareceu no mapa.",
+    "notFoundDescription": "O endereço pode estar incorreto ou o registro não está disponível.",
+    "backHome": "Voltar ao atlas"
+  },
   "LocaleSwitcher": {
     "label": "Idioma",
     "portuguese": "Português",

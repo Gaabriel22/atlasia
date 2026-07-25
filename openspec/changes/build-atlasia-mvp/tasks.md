@@ -38,13 +38,13 @@
 
 ## 5. Sistema visual Atlasia
 
-- [ ] 5.1 Definir tokens semânticos de tinta, pergaminho, bronze, oceano, superfícies, bordas, foco e estados no CSS global
-- [ ] 5.2 Configurar tipografias editorial e de leitura com `next/font`, fallback e carregamento otimizado
-- [ ] 5.3 Adicionar componentes shadcn necessários com CLI e revisar composição, imports, acessibilidade e variantes
-- [ ] 5.4 Criar shell compartilhado com header, marca, seletor de idioma, footer, landmarks e skip link
-- [ ] 5.5 Criar atmosfera cartográfica responsiva com textura sutil, profundidade e reduced motion sem biblioteca de animação pesada
-- [ ] 5.6 Criar estados globais localizados de loading, error e not-found usando `Skeleton`, `Alert`, `Empty` e ações acessíveis
-- [ ] 5.7 Verificar contraste, foco, alvo de toque, zoom 200% e ausência de overflow em mobile e desktop
+- [x] 5.1 Definir tokens semânticos de tinta, pergaminho, bronze, oceano, superfícies, bordas, foco e estados no CSS global
+- [x] 5.2 Configurar tipografias editorial e de leitura com `next/font`, fallback e carregamento otimizado
+- [x] 5.3 Adicionar componentes shadcn necessários com CLI e revisar composição, imports, acessibilidade e variantes
+- [x] 5.4 Criar shell compartilhado com header, marca, seletor de idioma, footer, landmarks e skip link
+- [x] 5.5 Criar atmosfera cartográfica responsiva com textura sutil, profundidade e reduced motion sem biblioteca de animação pesada
+- [x] 5.6 Criar estados globais localizados de loading, error e not-found usando `Skeleton`, `Alert`, `Empty` e ações acessíveis
+- [x] 5.7 Verificar contraste, foco, alvo de toque, zoom 200% e ausência de overflow em mobile e desktop
 
 ## 6. Catálogo e descoberta
 

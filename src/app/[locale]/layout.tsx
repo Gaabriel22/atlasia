@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google"
 import { notFound } from "next/navigation"
 import { hasLocale, NextIntlClientProvider } from "next-intl"
 import {
@@ -8,18 +8,22 @@ import {
   setRequestLocale,
 } from "next-intl/server"
 
+import { AppShell } from "@/components/layout/app-shell"
 import { routing } from "@/i18n/routing"
 
 import "../globals.css"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sourceSans = Source_Sans_3({
+  variable: "--font-atlas-body",
   subsets: ["latin"],
+  display: "swap",
 })
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-atlas-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 })
 
 type LocaleLayoutProps = Readonly<{
@@ -64,11 +68,11 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${sourceSans.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <AppShell>{children}</AppShell>
         </NextIntlClientProvider>
       </body>
     </html>

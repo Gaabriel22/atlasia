@@ -8,6 +8,24 @@
     "title": "Discover the world like an explorer opening an atlas.",
     "description": "Browse countries, capitals, and essential facts through a clear, fast reading experience made for geography enthusiasts."
   },
+  "SiteShell": {
+    "skipToContent": "Skip to content",
+    "homeLabel": "Atlasia, home page",
+    "tagline": "Geographic archive",
+    "languageNavigation": "Language selection",
+    "footerStatement": "A contemporary atlas for exploring the world with clarity.",
+    "footerCoordinates": "Earth · 23°26′"
+  },
+  "RouteStates": {
+    "loading": "Loading the atlas",
+    "errorTitle": "The route slipped off the map.",
+    "errorDescription": "We could not complete this exploration right now. Try again in a few moments.",
+    "retry": "Try again",
+    "notFoundEyebrow": "Lost coordinates",
+    "notFoundTitle": "This place did not appear on the map.",
+    "notFoundDescription": "The address may be incorrect or the record is unavailable.",
+    "backHome": "Return to the atlas"
+  },
   "LocaleSwitcher": {
     "label": "Language",
     "portuguese": "Portuguese",
