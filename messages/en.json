@@ -49,6 +49,152 @@
     "unavailableDescription": "There was a problem while retrieving the countries. Try again in a few moments.",
     "retry": "Try again"
   },
+  "CountryProfile": {
+    "breadcrumbCatalog": "Countries",
+    "backToCatalog": "Back to catalog",
+    "eyebrow": "Geographic dossier · {code}",
+    "officialName": "Official name",
+    "flagAlt": "Flag of {country}",
+    "flagCaption": "Flag description",
+    "unknownRegion": "Region not provided",
+    "capital": "Capital",
+    "population": "Population",
+    "area": "Area",
+    "unavailable": "Not provided",
+    "yes": "Yes",
+    "no": "No",
+    "metadataTitle": "{country} — geographic profile",
+    "metadataDescription": "Explore the population, geography, languages, currencies, and codes of {country} in Atlasia.",
+    "notFoundMetadataTitle": "Country not found",
+    "loading": "Loading country profile",
+    "sections": {
+      "identity": {
+        "title": "Identity",
+        "description": "Names, political classification, and international ties."
+      },
+      "geography": {
+        "title": "Geography",
+        "description": "Location, territory, borders, and everyday references."
+      },
+      "population": {
+        "title": "Population",
+        "description": "Human scale and territorial distribution."
+      },
+      "languages": {
+        "title": "Languages",
+        "description": "Registered languages and their native names."
+      },
+      "currencies": {
+        "title": "Currencies",
+        "description": "Monetary units in circulation."
+      },
+      "codes": {
+        "title": "Codes",
+        "description": "International identifiers and vehicle signs."
+      },
+      "connectivity": {
+        "title": "Connectivity",
+        "description": "Calling codes, domains, time zones, and external references."
+      }
+    },
+    "fields": {
+      "commonName": "Common name",
+      "officialName": "Official name",
+      "nativeNames": "Native names",
+      "demonyms": "Demonyms",
+      "governmentType": "Government type",
+      "sovereign": "Sovereign state",
+      "unMember": "UN member",
+      "unObserver": "UN observer",
+      "disputed": "Disputed territory",
+      "dependency": "Dependency",
+      "dependencyType": "Dependency type",
+      "isoStatus": "ISO status",
+      "memberships": "Organizations",
+      "region": "Region",
+      "subregion": "Subregion",
+      "continents": "Continent",
+      "capitals": "Capitals",
+      "landlocked": "Landlocked",
+      "borders": "Borders",
+      "area": "Area",
+      "coordinates": "Coordinates",
+      "drivingSide": "Driving side",
+      "postalCodeFormat": "Postal code format",
+      "startOfWeek": "Start of week",
+      "measurementSystem": "Measurement system",
+      "temperatureScale": "Temperature scale",
+      "population": "Residents",
+      "density": "Estimated density",
+      "languages": "Languages",
+      "currencies": "Currencies",
+      "alpha2": "ISO alpha-2",
+      "alpha3": "ISO alpha-3",
+      "numeric": "ISO numeric",
+      "olympic": "Olympic",
+      "football": "FIFA",
+      "fips": "FIPS",
+      "gec": "GEC",
+      "vehicleSigns": "Vehicle signs",
+      "callingCodes": "Calling codes",
+      "topLevelDomains": "Domains",
+      "timeZones": "Time zones",
+      "officialWebsite": "Official website",
+      "wikipedia": "Wikipedia",
+      "openStreetMap": "OpenStreetMap",
+      "googleMaps": "Google Maps"
+    },
+    "capitalRoles": {
+      "primary": "primary",
+      "administrative": "administrative",
+      "constitutional": "constitutional",
+      "executive": "executive",
+      "judicial": "judicial",
+      "legislative": "legislative"
+    },
+    "memberships": {
+      "africanUnion": "African Union",
+      "arabLeague": "Arab League",
+      "asean": "ASEAN",
+      "brics": "BRICS",
+      "commonwealth": "Commonwealth",
+      "eu": "European Union",
+      "eurozone": "Eurozone",
+      "g20": "G20",
+      "g7": "G7",
+      "nato": "NATO",
+      "oecd": "OECD",
+      "opec": "OPEC",
+      "schengen": "Schengen Area",
+      "un": "United Nations"
+    },
+    "drivingSides": {
+      "left": "Left",
+      "right": "Right"
+    },
+    "values": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "metric": "Metric",
+      "imperial": "Imperial",
+      "celsius": "Celsius",
+      "fahrenheit": "Fahrenheit"
+    },
+    "externalLink": "Open {country}'s {label} in a new tab",
+    "densityValue": "{value} people/km²",
+    "unavailableEyebrow": "Archive temporarily closed",
+    "unavailableTitle": "We could not open this dossier right now.",
+    "unavailableDescription": "The country data is currently unavailable. Try again in a few moments.",
+    "retry": "Try again",
+    "notFoundEyebrow": "Unknown coordinate",
+    "notFoundTitle": "This country could not be located.",
+    "notFoundDescription": "Check the country code or return to the catalog to choose another destination."
+  },
   "SiteShell": {
     "skipToContent": "Skip to content",
     "homeLabel": "Atlasia, home page",

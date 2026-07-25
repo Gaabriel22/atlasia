@@ -59,14 +59,14 @@
 
 ## 7. Perfil de país
 
-- [ ] 7.1 Criar rota interna `[locale]/countries/[code]` com pathnames externos localizados e validação do código ISO
-- [ ] 7.2 Criar cabeçalho editorial do país com bandeira, nome localizado, nome oficial, região e navegação por breadcrumb
-- [ ] 7.3 Criar seções de identidade, geografia, população, idiomas, moedas, códigos e conectividade com componentes shadcn
-- [ ] 7.4 Omitir ou localizar valores ausentes sem expor JSON bruto ou quebrar a composição
-- [ ] 7.5 Preservar código do país ao trocar idioma e fornecer retorno localizado ao catálogo
-- [ ] 7.6 Criar loading e not-found específicos do perfil e cobrir falha recuperável da API
-- [ ] 7.7 Criar metadata dinâmica localizada, canonical, alternates e imagem social para perfis válidos
-- [ ] 7.8 Adicionar testes de perfil completo, parcial, código inexistente e troca de locale
+- [x] 7.1 Criar rota interna `[locale]/countries/[code]` com pathnames externos localizados e validação do código ISO
+- [x] 7.2 Criar cabeçalho editorial do país com bandeira, nome localizado, nome oficial, região e navegação por breadcrumb
+- [x] 7.3 Criar seções de identidade, geografia, população, idiomas, moedas, códigos e conectividade com componentes shadcn
+- [x] 7.4 Omitir ou localizar valores ausentes sem expor JSON bruto ou quebrar a composição
+- [x] 7.5 Preservar código do país ao trocar idioma e fornecer retorno localizado ao catálogo
+- [x] 7.6 Criar loading e not-found específicos do perfil e cobrir falha recuperável da API
+- [x] 7.7 Criar metadata dinâmica localizada, canonical, alternates e imagem social para perfis válidos
+- [x] 7.8 Adicionar testes de perfil completo, parcial, código inexistente e troca de locale
 
 ## 8. SEO técnico e dados estruturados
 

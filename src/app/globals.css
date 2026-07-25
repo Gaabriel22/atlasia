@@ -265,6 +265,30 @@
     appearance: none;
   }
 
+  .country-profile-hero {
+    padding: clamp(1.5rem, 6vw, 4.5rem);
+  }
+
+  .country-profile-flag {
+    border: 1px solid color-mix(in oklch, var(--parchment) 18%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklch, var(--parchment) 12%, transparent),
+      0 1.5rem 4rem oklch(0.04 0.01 160 / 38%);
+  }
+
+  .country-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .country-detail-card {
+    background: color-mix(in oklch, var(--card) 92%, var(--ocean) 8%);
+    box-shadow: inset 0 1px 0
+      color-mix(in oklch, var(--parchment) 6%, transparent);
+  }
+
   .country-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -329,6 +353,15 @@
 }
 
 @media (min-width: 64rem) {
+  .country-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .country-detail-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .country-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
@@ -360,7 +393,9 @@
   .atlas-panel,
   .atlas-state-card,
   .atlas-stat,
-  .atlas-filter-panel {
+  .atlas-filter-panel,
+  .country-profile-flag,
+  .country-detail-card {
     border: 1px solid CanvasText;
   }
 
