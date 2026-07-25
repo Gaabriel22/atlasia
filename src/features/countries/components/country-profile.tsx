@@ -30,7 +30,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import type { CountryDetail } from "@/features/countries/model/country.schemas"
 import {
   formatArea,
@@ -105,14 +104,17 @@ function DetailSection({
         {items.length > 0 ? (
           <dl className="flex flex-col">
             {items.map((item, index) => (
-              <div key={item.label}>
-                {index > 0 ? <Separator aria-hidden="true" /> : null}
-                <div className="grid gap-1.5 py-4 sm:grid-cols-[minmax(8rem,0.7fr)_minmax(0,1.3fr)] sm:gap-6">
-                  <dt className="atlas-kicker">{item.label}</dt>
-                  <dd className="min-w-0 leading-relaxed text-foreground">
-                    {item.value}
-                  </dd>
-                </div>
+              <div
+                className={cn(
+                  "grid gap-1.5 py-4 sm:grid-cols-[minmax(8rem,0.7fr)_minmax(0,1.3fr)] sm:gap-6",
+                  index > 0 && "border-t border-border",
+                )}
+                key={item.label}
+              >
+                <dt className="atlas-kicker">{item.label}</dt>
+                <dd className="min-w-0 leading-relaxed text-foreground">
+                  {item.value}
+                </dd>
               </div>
             ))}
           </dl>

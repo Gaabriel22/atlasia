@@ -144,6 +144,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
+      data-scroll-behavior="smooth"
       className={`${sourceSans.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body>

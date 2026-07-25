@@ -54,7 +54,7 @@ export function CountryCard({ country }: CountryCardProps) {
 
         <CardHeader>
           <CardTitle>
-            <h2 className="text-2xl leading-tight">{country.localizedName}</h2>
+            <h3 className="text-2xl leading-tight">{country.localizedName}</h3>
           </CardTitle>
           <CardDescription>
             {country.capital ?? t("unknownCapital")}

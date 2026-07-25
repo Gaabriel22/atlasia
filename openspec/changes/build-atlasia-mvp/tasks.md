@@ -88,8 +88,8 @@
 
 ## 10. Acessibilidade, performance e entrega
 
-- [ ] 10.1 Adicionar axe aos testes de componentes e rotas representativas e corrigir violações detectadas
-- [ ] 10.2 Executar auditoria manual WCAG 2.2 AA de teclado, foco, landmarks, headings, alternativas, contraste, zoom e reduced motion
+- [x] 10.1 Adicionar axe aos testes de componentes e rotas representativas e corrigir violações detectadas
+- [x] 10.2 Executar auditoria manual WCAG 2.2 AA de teclado, foco, landmarks, headings, alternativas, contraste, zoom e reduced motion
 - [ ] 10.3 Configurar auditoria Lighthouse reproduzível sobre build de produção para catálogo e um perfil em mobile
 - [ ] 10.4 Cumprir budgets Lighthouse de Performance ≥90, Accessibility 100, Best Practices ≥95 e SEO 100
 - [ ] 10.5 Verificar LCP ≤2,5 s, INP ≤200 ms e CLS ≤0,1 e corrigir causas medidas sem otimização especulativa
