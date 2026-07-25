@@ -82,9 +82,9 @@
 
 - [x] 9.1 Configurar CSP estática e headers defensivos globais sem sacrificar a geração estática
 - [x] 9.2 Isolar ambiente e credencial REST Countries em módulo `server-only` validado, sem exposição em bundles, erros ou logs
-- [ ] 9.3 Restringir CSP e hosts de imagem ao contrato real observado e validar headers em build de produção
-- [ ] 9.4 Auditar parâmetros dinâmicos, `proxy.ts` e fetch externo contra injeção, SSRF e exposição de informações
-- [ ] 9.5 Executar auditoria de dependências e verificação de secrets antes da entrega, resolvendo achados de alto risco
+- [x] 9.3 Restringir CSP e hosts de imagem ao contrato real observado e validar headers em build de produção
+- [x] 9.4 Auditar parâmetros dinâmicos, `proxy.ts` e fetch externo contra injeção, SSRF e exposição de informações
+- [x] 9.5 Executar auditoria de dependências e verificação de secrets antes da entrega, resolvendo achados de alto risco
 
 ## 10. Acessibilidade, performance e entrega
 

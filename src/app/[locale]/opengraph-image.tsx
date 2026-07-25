@@ -115,8 +115,8 @@ export default async function OpenGraphImage({ params }: OpenGraphImageProps) {
         <img
           src={`data:image/png;base64,${logo}`}
           alt=""
-          width="176"
-          height="176"
+          width={176}
+          height={176}
         />
       </div>
     </div>,

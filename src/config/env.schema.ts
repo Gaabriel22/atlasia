@@ -4,13 +4,20 @@ const siteUrlSchema = z
   .url()
   .refine((value) => {
     const url = new URL(value)
+    const isSecureOrigin = url.protocol === "https:"
+    const isLocalDevelopmentOrigin =
+      url.protocol === "http:" &&
+      (url.hostname === "localhost" || url.hostname === "127.0.0.1")
+
     return (
-      (url.protocol === "http:" || url.protocol === "https:") &&
+      (isSecureOrigin || isLocalDevelopmentOrigin) &&
+      url.username === "" &&
+      url.password === "" &&
       url.pathname === "/" &&
       url.search === "" &&
       url.hash === ""
     )
-  }, "SITE_URL must be an HTTP(S) origin without a path, query, or hash")
+  }, "SITE_URL must be a secure origin without credentials, path, query, or hash")
   .transform((value) => new URL(value).origin)
 
 export const serverEnvSchema = z

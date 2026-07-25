@@ -13,6 +13,37 @@ const optionalHttpsUrlSchema = z.preprocess(
   httpsUrlSchema.optional(),
 )
 
+function createOptionalFlagUrlSchema(
+  pathnamePattern: RegExp,
+  expectedFormat: string,
+) {
+  return z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    httpsUrlSchema
+      .refine((value) => {
+        const url = new URL(value)
+
+        return (
+          url.hostname === "flags.restcountries.com" &&
+          url.port === "" &&
+          url.search === "" &&
+          url.hash === "" &&
+          pathnamePattern.test(url.pathname)
+        )
+      }, `Expected a REST Countries ${expectedFormat} flag URL`)
+      .optional(),
+  )
+}
+
+const optionalPngFlagUrlSchema = createOptionalFlagUrlSchema(
+  /^\/v5\/w640\/[a-z]{2}\.png$/,
+  "PNG",
+)
+const optionalSvgFlagUrlSchema = createOptionalFlagUrlSchema(
+  /^\/v5\/svg\/[a-z]{2}\.svg$/,
+  "SVG",
+)
+
 const optionalNonEmptyStringSchema = z.preprocess(
   (value) => (value === "" ? undefined : value),
   nonEmptyStringSchema.optional(),
@@ -85,8 +116,8 @@ const capitalSchema = z
 
 const flagSchema = z
   .object({
-    url_png: optionalHttpsUrlSchema,
-    url_svg: optionalHttpsUrlSchema,
+    url_png: optionalPngFlagUrlSchema,
+    url_svg: optionalSvgFlagUrlSchema,
     description: optionalNonEmptyStringSchema,
   })
   .strip()

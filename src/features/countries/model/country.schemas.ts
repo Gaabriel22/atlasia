@@ -1,6 +1,9 @@
 import { z } from "zod"
 
 const nonEmptyStringSchema = z.string().trim().min(1)
+const httpsUrlSchema = z
+  .url()
+  .refine((value) => new URL(value).protocol === "https:")
 
 export const countryCodeSchema = z
   .string()
@@ -27,8 +30,8 @@ export const countryRegionSchema = z.enum([
 
 const countryFlagSchema = z
   .object({
-    pngUrl: z.url().optional(),
-    svgUrl: z.url().optional(),
+    pngUrl: httpsUrlSchema.optional(),
+    svgUrl: httpsUrlSchema.optional(),
     description: nonEmptyStringSchema.optional(),
   })
   .strict()
@@ -132,20 +135,35 @@ const classificationSchema = z
 
 const countryLinksSchema = z
   .object({
-    officialWebsite: z.url().optional(),
-    wikipedia: z.url().optional(),
-    openStreetMap: z.url().optional(),
-    googleMaps: z.url().optional(),
+    officialWebsite: httpsUrlSchema.optional(),
+    wikipedia: httpsUrlSchema.optional(),
+    openStreetMap: httpsUrlSchema.optional(),
+    googleMaps: httpsUrlSchema.optional(),
   })
   .strict()
 
 const countryCodesSchema = z
   .object({
-    numeric: z.string().regex(/^\d{3}$/).optional(),
-    olympic: z.string().regex(/^[A-Z]{3}$/).optional(),
-    football: z.string().regex(/^[A-Z]{3}$/).optional(),
-    fips: z.string().regex(/^[A-Z]{2}$/).optional(),
-    gec: z.string().regex(/^[A-Z]{2}$/).optional(),
+    numeric: z
+      .string()
+      .regex(/^\d{3}$/)
+      .optional(),
+    olympic: z
+      .string()
+      .regex(/^[A-Z]{3}$/)
+      .optional(),
+    football: z
+      .string()
+      .regex(/^[A-Z]{3}$/)
+      .optional(),
+    fips: z
+      .string()
+      .regex(/^[A-Z]{2}$/)
+      .optional(),
+    gec: z
+      .string()
+      .regex(/^[A-Z]{2}$/)
+      .optional(),
   })
   .strict()
 

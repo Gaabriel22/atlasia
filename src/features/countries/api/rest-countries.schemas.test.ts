@@ -46,4 +46,44 @@ describe("REST Countries v5 schemas", () => {
 
     expect(result.data.objects[0]).not.toHaveProperty("future_provider_field")
   })
+
+  it("rejects flag images outside the observed REST Countries host and path", () => {
+    const result = restCountriesSummaryResponseSchema.safeParse({
+      ...summaryFixture,
+      data: {
+        ...summaryFixture.data,
+        objects: [
+          {
+            ...summaryFixture.data.objects[0],
+            flag: {
+              ...summaryFixture.data.objects[0].flag,
+              url_png: "https://attacker.example/v5/w640/ca.png",
+            },
+          },
+        ],
+      },
+    })
+
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects non-HTTPS links supplied by the provider", () => {
+    const result = restCountriesDetailResponseSchema.safeParse({
+      ...detailFixture,
+      data: {
+        ...detailFixture.data,
+        objects: [
+          {
+            ...detailFixture.data.objects[0],
+            links: {
+              ...detailFixture.data.objects[0].links,
+              official: "javascript:alert(1)",
+            },
+          },
+        ],
+      },
+    })
+
+    expect(result.success).toBe(false)
+  })
 })
