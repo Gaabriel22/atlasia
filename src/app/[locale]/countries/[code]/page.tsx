@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { hasLocale } from "next-intl"
 import { getTranslations, setRequestLocale } from "next-intl/server"
 
-import { env } from "@/config/env"
+import { siteConfig } from "@/config/site"
 import { CountryProfile } from "@/features/countries/components/country-profile"
 import { CountryProfileUnavailable } from "@/features/countries/components/country-profile-unavailable"
 import { CountryNotFoundError } from "@/features/countries/model/country.errors"
@@ -13,25 +13,17 @@ import {
 } from "@/features/countries/model/country.schemas"
 import { getCountry } from "@/features/countries/queries/get-country"
 import { formatCountryName } from "@/features/countries/utils/country-formatters"
-import { getPathname } from "@/i18n/navigation"
-import { type AppLocale, routing } from "@/i18n/routing"
+import { createCountryStructuredData } from "@/features/countries/utils/country-structured-data"
+import { formatOfficialName } from "@/features/countries/utils/country-value-localizers"
+import { routing } from "@/i18n/routing"
+import { JsonLd } from "@/lib/seo/json-ld"
+import {
+  getCountryLanguageAlternates,
+  getCountryUrl,
+} from "@/lib/seo/localized-urls"
 
 type CountryPageProps = {
   params: Promise<{ code: string; locale: string }>
-}
-
-function getCountryPath(locale: AppLocale, code: string) {
-  return getPathname({
-    locale,
-    href: {
-      pathname: "/countries/[code]",
-      params: { code: code.toLocaleLowerCase() },
-    },
-  })
-}
-
-function getAbsoluteCountryUrl(locale: AppLocale, code: string) {
-  return new URL(getCountryPath(locale, code), env.siteUrl).toString()
 }
 
 async function loadCountry(code: string): Promise<CountryDetail | undefined> {
@@ -87,13 +79,7 @@ export async function generateMetadata({
   const localizedName = formatCountryName(country.code, country.name, locale)
   const title = t("metadataTitle", { country: localizedName })
   const description = t("metadataDescription", { country: localizedName })
-  const canonical = getAbsoluteCountryUrl(locale, country.code)
-  const languageAlternates = Object.fromEntries(
-    routing.locales.map((supportedLocale) => [
-      supportedLocale,
-      getAbsoluteCountryUrl(supportedLocale, country.code),
-    ]),
-  )
+  const canonical = getCountryUrl(locale, country.code)
   const images = country.flag?.pngUrl
     ? [
         {
@@ -110,14 +96,11 @@ export async function generateMetadata({
     description,
     alternates: {
       canonical,
-      languages: {
-        ...languageAlternates,
-        "x-default": getAbsoluteCountryUrl(routing.defaultLocale, country.code),
-      },
+      languages: getCountryLanguageAlternates(country.code),
     },
     openGraph: {
       type: "website",
-      siteName: "Atlasia",
+      siteName: siteConfig.name,
       locale: locale.replace("-", "_"),
       alternateLocale: routing.locales
         .filter((supportedLocale) => supportedLocale !== locale)
@@ -161,5 +144,29 @@ export default async function CountryPage({ params }: CountryPageProps) {
     notFound()
   }
 
-  return <CountryProfile country={country} locale={locale} />
+  const [profileT, catalogT] = await Promise.all([
+    getTranslations("CountryProfile"),
+    getTranslations("CountryCatalog"),
+  ])
+  const localizedName = formatCountryName(country.code, country.name, locale)
+  const structuredData = createCountryStructuredData({
+    breadcrumbCatalog: profileT("breadcrumbCatalog"),
+    country,
+    labels: {
+      area: profileT("area"),
+      capital: profileT("capital"),
+      population: profileT("population"),
+    },
+    locale,
+    localizedName,
+    localizedOfficialName: formatOfficialName(country, locale),
+    region: country.region ? catalogT(`regions.${country.region}`) : undefined,
+  })
+
+  return (
+    <>
+      <JsonLd data={structuredData} />
+      <CountryProfile country={country} locale={locale} />
+    </>
+  )
 }

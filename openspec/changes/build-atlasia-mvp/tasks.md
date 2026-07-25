@@ -70,13 +70,13 @@
 
 ## 8. SEO técnico e dados estruturados
 
-- [ ] 8.1 Criar configuração central de site e URLs absolutas validada por ambiente
-- [ ] 8.2 Criar metadata global localizada, manifest, robots, ícones e imagem Open Graph coerentes com a marca
-- [ ] 8.3 Gerar sitemap com catálogo e perfis válidos em `pt-BR` e `en`, incluindo relações de alternates
-- [ ] 8.4 Implementar JSON-LD server-side seguro para `WebSite` e `CollectionPage` no catálogo
-- [ ] 8.5 Implementar JSON-LD server-side seguro para `BreadcrumbList` e `Country` nos perfis
-- [ ] 8.6 Verificar que dados estruturados refletem conteúdo visível e validar amostras no Schema.org Validator e ferramenta aplicável do Google
-- [ ] 8.7 Revisar headings, links internos, títulos, descrições, canonicals, hreflang e indexabilidade nos dois locales
+- [x] 8.1 Criar configuração central de site e URLs absolutas validada por ambiente
+- [x] 8.2 Criar metadata global localizada, manifest, robots, ícones e imagem Open Graph coerentes com a marca
+- [x] 8.3 Gerar sitemap com catálogo e perfis válidos em `pt-BR` e `en`, incluindo relações de alternates
+- [x] 8.4 Implementar JSON-LD server-side seguro para `WebSite` e `CollectionPage` no catálogo
+- [x] 8.5 Implementar JSON-LD server-side seguro para `BreadcrumbList` e `Country` nos perfis
+- [x] 8.6 Verificar que dados estruturados refletem conteúdo visível e validar amostras no Schema.org Validator e ferramenta aplicável do Google
+- [x] 8.7 Revisar headings, links internos, títulos, descrições, canonicals, hreflang e indexabilidade nos dois locales
 
 ## 9. Segurança
 

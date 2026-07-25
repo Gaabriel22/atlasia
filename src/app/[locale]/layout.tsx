@@ -9,7 +9,12 @@ import {
 } from "next-intl/server"
 
 import { AppShell } from "@/components/layout/app-shell"
+import { siteConfig } from "@/config/site"
 import { routing } from "@/i18n/routing"
+import {
+  getCatalogLanguageAlternates,
+  getCatalogUrl,
+} from "@/lib/seo/localized-urls"
 
 import "../globals.css"
 
@@ -45,10 +50,81 @@ export async function generateMetadata({
   }
 
   const t = await getTranslations({ locale, namespace: "Metadata" })
+  const canonical = getCatalogUrl(locale)
 
   return {
-    title: t("title"),
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: t("title"),
+      template: `%s | ${siteConfig.name}`,
+    },
     description: t("description"),
+    applicationName: siteConfig.name,
+    category: "education",
+    alternates: {
+      canonical,
+      languages: getCatalogLanguageAlternates(),
+    },
+    manifest: "/manifest.webmanifest",
+    icons: {
+      icon: [
+        {
+          url: siteConfig.icons.favicon,
+          sizes: "32x32",
+          type: "image/x-icon",
+        },
+        {
+          url: siteConfig.icons.icon,
+          sizes: "512x512",
+          type: "image/png",
+        },
+      ],
+      apple: [
+        {
+          url: siteConfig.icons.apple,
+          sizes: "180x180",
+          type: "image/png",
+        },
+      ],
+      shortcut: [siteConfig.icons.favicon],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.name,
+      title: t("title"),
+      description: t("description"),
+      url: canonical,
+      locale: locale.replace("-", "_"),
+      alternateLocale: routing.locales
+        .filter((supportedLocale) => supportedLocale !== locale)
+        .map((supportedLocale) => supportedLocale.replace("-", "_")),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+    },
+    appleWebApp: {
+      capable: true,
+      title: siteConfig.name,
+      statusBarStyle: "black-translucent",
+    },
+    formatDetection: {
+      address: false,
+      email: false,
+      telephone: false,
+    },
   }
 }
 
