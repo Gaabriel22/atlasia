@@ -8,15 +8,15 @@ A auditoria cobre o catálogo (`/en`) e um perfil de país
 (`/en/countries/ca`) sobre o build de produção, servido localmente com a mesma
 origem usada na geração dos metadados.
 
-| Verificação | Budget |
-| --- | ---: |
-| Performance | ≥ 90 |
-| Accessibility | 100 |
-| Best Practices | ≥ 95 |
-| SEO | 100 |
-| LCP | ≤ 2,5 s |
-| INP | ≤ 200 ms |
-| CLS | ≤ 0,1 |
+| Verificação    |   Budget |
+| -------------- | -------: |
+| Performance    |     ≥ 90 |
+| Accessibility  |      100 |
+| Best Practices |     ≥ 95 |
+| SEO            |      100 |
+| LCP            |  ≤ 2,5 s |
+| INP            | ≤ 200 ms |
+| CLS            |    ≤ 0,1 |
 
 ## Método reproduzível
 
@@ -45,10 +45,10 @@ node scripts/run-lighthouse.mjs --skip-build --runs=3 --interaction-only
 
 ## Resultado
 
-| Rota | Performance | Accessibility | Best Practices | SEO | LCP | CLS |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Catálogo | 98 | 100 | 100 | 100 | 1,664 s | 0 |
-| Perfil | 99 | 100 | 100 | 100 | 1,382 s | 0 |
+| Rota     | Performance | Accessibility | Best Practices | SEO |     LCP | CLS |
+| -------- | ----------: | ------------: | -------------: | --: | ------: | --: |
+| Catálogo |          98 |           100 |            100 | 100 | 1,557 s |   0 |
+| Perfil   |          99 |           100 |            100 | 100 | 1,550 s |   0 |
 
 Na interação do catálogo, o INP foi 160, 168 e 168 ms, com mediana de 168 ms.
 Todos os budgets foram cumpridos.

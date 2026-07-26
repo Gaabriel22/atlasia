@@ -95,4 +95,4 @@
 - [x] 10.5 Verificar LCP ≤2,5 s, INP ≤200 ms e CLS ≤0,1 e corrigir causas medidas sem otimização especulativa
 - [x] 10.6 Executar smoke tests Playwright para catálogo, busca, filtro, navegação, troca de idioma, perfil e 404
 - [x] 10.7 Atualizar README com visão, arquitetura, estrutura, variáveis de ambiente, scripts, decisões de i18n, segurança e instruções de deploy
-- [ ] 10.8 Executar suite final de lint, typecheck, testes, e2e, build, auditoria de segurança e Lighthouse e registrar resultados do MVP
+- [x] 10.8 Executar suite final de lint, typecheck, testes, e2e, build, auditoria de segurança e Lighthouse e registrar resultados do MVP

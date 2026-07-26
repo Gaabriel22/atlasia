@@ -63,8 +63,8 @@ reduzindo o peso da variação natural do Lighthouse.
 
 | Rota     | Performance | Accessibility | Best Practices | SEO |     LCP | CLS |
 | -------- | ----------: | ------------: | -------------: | --: | ------: | --: |
-| Catálogo |          98 |           100 |            100 | 100 | 1,664 s |   0 |
-| Perfil   |          99 |           100 |            100 | 100 | 1,382 s |   0 |
+| Catálogo |          98 |           100 |            100 | 100 | 1,557 s |   0 |
+| Perfil   |          99 |           100 |            100 | 100 | 1,550 s |   0 |
 
 O INP mediano da busca e do filtro foi **168 ms**. Os budgets do projeto são
 Performance ≥ 90, Accessibility = 100, Best Practices ≥ 95, SEO = 100,
@@ -320,6 +320,9 @@ A estratégia combina níveis diferentes em vez de depender de uma única suíte
 - **E2E:** descoberta, filtros, teclado, i18n, perfil, 404, SEO e segurança.
 - **Acessibilidade:** axe nas rotas representativas e auditoria manual.
 - **Performance:** Lighthouse mobile e interação real com CPU 4× mais lenta.
+
+O resultado consolidado da entrega está em
+[`docs/release-validation.md`](./docs/release-validation.md).
 
 Antes de uma entrega:
 
