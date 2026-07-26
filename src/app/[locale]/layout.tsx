@@ -28,7 +28,8 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-atlas-display",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  display: "swap",
+  display: "optional",
+  preload: false,
 })
 
 type LocaleLayoutProps = Readonly<{

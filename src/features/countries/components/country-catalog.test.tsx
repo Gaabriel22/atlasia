@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react"
+import { render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { NextIntlClientProvider } from "next-intl"
 import { describe, expect, it, vi } from "vitest"
@@ -15,6 +15,7 @@ import type { CountryCatalogItem } from "@/features/countries/utils/country-cata
 vi.mock("@/i18n/navigation", () => ({
   Link: ({
     href,
+    prefetch: _prefetch,
     ...props
   }: Omit<React.ComponentProps<"a">, "href"> & {
     href:
@@ -23,9 +24,11 @@ vi.mock("@/i18n/navigation", () => ({
           pathname: string
           params: { code: string }
         }
+    prefetch?: boolean
   }) => {
     const localizedHref =
       typeof href === "string" ? href : `/pt-BR/paises/${href.params.code}`
+    void _prefetch
 
     return <a href={localizedHref} {...props} />
   },
@@ -95,7 +98,7 @@ describe("CountryCard", () => {
       />,
     )
 
-    const link = screen.getByRole("link", { name: "Explorar Brasil" })
+    const link = screen.getByRole("link", { name: /^Explorar Brasil\b/ })
 
     expect(link).toHaveAttribute("href", "/pt-BR/paises/br")
     expect(screen.getByRole("heading", { name: "Brasil" })).toBeVisible()
@@ -154,10 +157,12 @@ describe("CountryCatalog", () => {
 
     expect(
       await screen.findByRole("link", {
-        name: "Explorar São Tomé e Príncipe",
+        name: /^Explorar São Tomé e Príncipe\b/,
       }),
     ).toBeVisible()
-    expect(screen.getByRole("status")).toHaveTextContent("1 país encontrado")
+    await waitFor(() =>
+      expect(screen.getByRole("status")).toHaveTextContent("1 país encontrado"),
+    )
 
     await user.click(screen.getByRole("button", { name: "Américas" }))
 
@@ -172,7 +177,11 @@ describe("CountryCatalog", () => {
 
     await user.click(screen.getByRole("button", { name: "Limpar filtros" }))
 
-    expect(screen.getByRole("status")).toHaveTextContent("3 países encontrados")
+    await waitFor(() =>
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "3 países encontrados",
+      ),
+    )
     expect(screen.getByRole("searchbox")).toHaveValue("")
   })
 

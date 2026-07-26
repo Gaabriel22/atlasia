@@ -90,9 +90,9 @@
 
 - [x] 10.1 Adicionar axe aos testes de componentes e rotas representativas e corrigir violações detectadas
 - [x] 10.2 Executar auditoria manual WCAG 2.2 AA de teclado, foco, landmarks, headings, alternativas, contraste, zoom e reduced motion
-- [ ] 10.3 Configurar auditoria Lighthouse reproduzível sobre build de produção para catálogo e um perfil em mobile
-- [ ] 10.4 Cumprir budgets Lighthouse de Performance ≥90, Accessibility 100, Best Practices ≥95 e SEO 100
-- [ ] 10.5 Verificar LCP ≤2,5 s, INP ≤200 ms e CLS ≤0,1 e corrigir causas medidas sem otimização especulativa
+- [x] 10.3 Configurar auditoria Lighthouse reproduzível sobre build de produção para catálogo e um perfil em mobile
+- [x] 10.4 Cumprir budgets Lighthouse de Performance ≥90, Accessibility 100, Best Practices ≥95 e SEO 100
+- [x] 10.5 Verificar LCP ≤2,5 s, INP ≤200 ms e CLS ≤0,1 e corrigir causas medidas sem otimização especulativa
 - [ ] 10.6 Executar smoke tests Playwright para catálogo, busca, filtro, navegação, troca de idioma, perfil e 404
 - [ ] 10.7 Atualizar README com visão, arquitetura, estrutura, variáveis de ambiente, scripts, decisões de i18n, segurança e instruções de deploy
 - [ ] 10.8 Executar suite final de lint, typecheck, testes, e2e, build, auditoria de segurança e Lighthouse e registrar resultados do MVP

@@ -3,6 +3,7 @@
 import { ArrowUpRightIcon, FlagIcon } from "lucide-react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { memo } from "react"
 
 import { Badge } from "@/components/ui/badge"
 import {
@@ -21,7 +22,9 @@ type CountryCardProps = {
   country: CountryCatalogItem
 }
 
-export function CountryCard({ country }: CountryCardProps) {
+export const CountryCard = memo(function CountryCard({
+  country,
+}: CountryCardProps) {
   const t = useTranslations("CountryCatalog")
   const countryCode = country.code.toLocaleLowerCase()
 
@@ -31,9 +34,12 @@ export function CountryCard({ country }: CountryCardProps) {
         pathname: "/countries/[code]",
         params: { code: countryCode },
       }}
+      prefetch={false}
       className="country-card-link group block h-full rounded-xl"
-      aria-label={t("openCountry", { country: country.localizedName })}
     >
+      <span className="sr-only">
+        {t("openCountry", { country: country.localizedName })}
+      </span>
       <Card className="country-card h-full pt-0">
         <div className="relative aspect-8/5 overflow-hidden bg-muted">
           {country.flag?.pngUrl ? (
@@ -92,4 +98,4 @@ export function CountryCard({ country }: CountryCardProps) {
       </Card>
     </Link>
   )
-}
+})

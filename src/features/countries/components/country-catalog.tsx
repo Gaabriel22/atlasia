@@ -6,7 +6,7 @@ import {
   SlidersHorizontalIcon,
   XIcon,
 } from "lucide-react"
-import { useDeferredValue, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
@@ -53,14 +53,19 @@ function isCountryRegionFilter(value: string): value is CountryRegionFilter {
 export function CountryCatalog({ countries }: CountryCatalogProps) {
   const t = useTranslations("CountryCatalog")
   const [query, setQuery] = useState("")
+  const [debouncedQuery, setDebouncedQuery] = useState("")
   const [region, setRegion] = useState<CountryRegionFilter>("all")
-  const deferredQuery = useDeferredValue(query)
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setDebouncedQuery(query), 200)
+    return () => window.clearTimeout(timeout)
+  }, [query])
 
   const visibleCountries = useMemo(
-    () => filterCountries(countries, deferredQuery, region),
-    [countries, deferredQuery, region],
+    () => filterCountries(countries, debouncedQuery, region),
+    [countries, debouncedQuery, region],
   )
-  const isPending = query !== deferredQuery
+  const isPending = query !== debouncedQuery
   const hasActiveFilters = query.length > 0 || region !== "all"
 
   function clearFilters() {
@@ -180,11 +185,7 @@ export function CountryCatalog({ countries }: CountryCatalogProps) {
       </div>
 
       {visibleCountries.length > 0 ? (
-        <div
-          className="country-grid"
-          aria-busy={isPending}
-          data-pending={isPending ? "" : undefined}
-        >
+        <div className="country-grid" aria-busy={isPending}>
           {visibleCountries.map((country) => (
             <CountryCard key={country.code} country={country} />
           ))}

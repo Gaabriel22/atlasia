@@ -489,7 +489,8 @@ export async function CountryProfile({ country, locale }: CountryProfileProps) {
                   src={country.flag.pngUrl}
                   alt={t("flagAlt", { country: localizedName })}
                   fill
-                  priority
+                  preload
+                  fetchPriority="high"
                   sizes="(max-width: 1023px) calc(100vw - 5rem), 32rem"
                   className="object-cover"
                 />

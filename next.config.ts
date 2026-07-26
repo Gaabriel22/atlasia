@@ -7,6 +7,9 @@ const isDevelopment = process.env.NODE_ENV === "development"
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    inlineCss: true,
+  },
   images: {
     remotePatterns: [
       {

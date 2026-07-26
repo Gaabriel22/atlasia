@@ -195,6 +195,10 @@
     text-transform: uppercase;
   }
 
+  .atlas-hero-title {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
   .atlas-orbit {
     position: absolute;
     top: -11rem;
@@ -293,14 +297,11 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
-    transition: opacity 150ms ease;
-  }
-
-  .country-grid[data-pending] {
-    opacity: 0.58;
   }
 
   .country-card-link {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 26rem;
     outline: none;
   }
 
@@ -347,6 +348,10 @@
 }
 
 @media (min-width: 40rem) {
+  .atlas-hero-title {
+    font-family: var(--font-atlas-display);
+  }
+
   .country-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

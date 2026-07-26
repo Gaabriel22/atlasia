@@ -56,10 +56,10 @@ export function LocaleSwitcher() {
         <ToggleGroupItem
           key={option}
           value={option}
-          aria-label={t(localeLabels[option])}
           className="min-h-11 min-w-11"
         >
-          {option === "pt-BR" ? "PT" : "EN"}
+          <span aria-hidden="true">{option === "pt-BR" ? "PT" : "EN"}</span>
+          <span className="sr-only">{t(localeLabels[option])}</span>
         </ToggleGroupItem>
       ))}
     </ToggleGroup>

@@ -18,7 +18,7 @@ export async function CountryHero({ countryCount }: CountryHeroProps) {
           <p className="atlas-kicker">{t("eyebrow")}</p>
           <h1
             id="home-title"
-            className="max-w-4xl font-heading text-5xl leading-[0.92] font-semibold text-balance sm:text-6xl lg:text-7xl xl:text-8xl"
+            className="atlas-hero-title max-w-4xl text-5xl leading-[0.92] font-semibold text-balance sm:text-6xl lg:text-7xl xl:text-8xl"
           >
             {t("title")}
           </h1>
