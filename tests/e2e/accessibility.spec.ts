@@ -19,15 +19,15 @@ async function expectNoWcagViolations(page: import("@playwright/test").Page) {
   ).toEqual([])
 }
 
-test("catalog meets automated WCAG 2.2 AA checks in both locales", async ({
-  page,
-}) => {
-  for (const locale of ["pt-BR", "en"]) {
+for (const locale of ["pt-BR", "en"]) {
+  test(`catalog meets automated WCAG 2.2 AA checks in ${locale}`, async ({
+    page,
+  }) => {
     await page.goto(`/${locale}`)
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
     await expectNoWcagViolations(page)
-  }
-})
+  })
+}
 
 test("filtered catalog remains accessible after a live update", async ({
   page,

@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test"
 
+const nextCli = "node node_modules/next/dist/bin/next"
+
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
@@ -21,9 +23,11 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: process.env.CI ? "npm run build && npm run start" : "npm run dev",
+    command: process.env.CI
+      ? `npm run build && ${nextCli} start`
+      : `${nextCli} dev`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
-    url: "http://localhost:3000",
+    url: "http://localhost:3000/robots.txt",
   },
 })
