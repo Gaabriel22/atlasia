@@ -2,8 +2,7 @@ import "server-only"
 
 import { cache } from "react"
 
-import { env } from "@/config/env"
-import { createRestCountriesClient } from "@/features/countries/api/rest-countries.client"
+import { getCountryFromSnapshot } from "@/features/countries/data/country-snapshot"
 import { CountryNotFoundError } from "@/features/countries/model/country.errors"
 import { countryCodeSchema } from "@/features/countries/model/country.schemas"
 
@@ -14,9 +13,11 @@ export const getCountry = cache(async (untrustedCode: string) => {
     throw new CountryNotFoundError()
   }
 
-  const client = createRestCountriesClient({
-    apiKey: env.restCountriesApiKey,
-  })
+  const country = getCountryFromSnapshot(code.data)
 
-  return client.getCountryDetail(code.data)
+  if (!country) {
+    throw new CountryNotFoundError()
+  }
+
+  return country
 })

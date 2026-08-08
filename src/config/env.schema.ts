@@ -23,24 +23,19 @@ const siteUrlSchema = z
 export const serverEnvSchema = z
   .object({
     SITE_URL: siteUrlSchema,
-    REST_COUNTRIES_API_KEY: z.string().trim().min(1),
   })
   .strict()
-  .transform(({ REST_COUNTRIES_API_KEY, SITE_URL }) => ({
+  .transform(({ SITE_URL }) => ({
     siteUrl: SITE_URL,
-    restCountriesApiKey: REST_COUNTRIES_API_KEY,
   }))
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>
 
-type EnvironmentSource = Partial<
-  Pick<NodeJS.ProcessEnv, "REST_COUNTRIES_API_KEY" | "SITE_URL">
->
+type EnvironmentSource = Partial<Pick<NodeJS.ProcessEnv, "SITE_URL">>
 
 export function parseServerEnv(environment: EnvironmentSource): ServerEnv {
   const result = serverEnvSchema.safeParse({
     SITE_URL: environment.SITE_URL,
-    REST_COUNTRIES_API_KEY: environment.REST_COUNTRIES_API_KEY,
   })
 
   if (!result.success) {

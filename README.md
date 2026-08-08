@@ -16,8 +16,8 @@
 
 ## Sobre o projeto
 
-Atlasia transforma os dados da REST Countries em uma experiência de exploração
-geográfica clara e compartilhável. O catálogo permite buscar por país ou capital,
+Atlasia transforma um snapshot versionado de dados geográficos em uma experiência
+de exploração clara e compartilhável. O catálogo permite buscar por país ou capital,
 combinar a busca com filtros regionais e abrir um dossiê completo de cada país.
 
 O projeto nasceu para portfólio, mas foi tratado como produto: possui
@@ -30,21 +30,21 @@ acessibilidade WCAG 2.2 AA e budgets automatizados de performance.
 - Catálogo com 250 países, busca instantânea e filtro por região.
 - Cards com bandeira, nome localizado, capital, região e população.
 - Perfil compartilhável por código ISO, organizado por assunto em vez de exibir
-  o JSON bruto da API.
+  o JSON bruto da fonte.
 - Interface, URLs, metadata e formatação em português brasileiro e inglês.
 - Rotas localizadas: `/pt-BR/paises/cv` e `/en/countries/cv`.
 - Nomes de países via `Intl.DisplayNames` e traduções editoriais próprias para
-  classificações retornadas apenas em inglês pela API.
+  classificações disponíveis apenas em inglês na fonte.
 - Estados localizados de loading, vazio, erro e página não encontrada.
 - Metadata dinâmica, canonical, `hreflang`, sitemap, Open Graph e JSON-LD.
 - Navegação por teclado, skip link, live regions, foco visível, reduced motion e
   layout funcional a 200% de zoom.
-- API key restrita ao servidor, CSP e headers HTTP defensivos.
+- Dados disponíveis sem chamadas à API em runtime, CSP e headers HTTP defensivos.
 
 ## Experiência
 
-O catálogo entrega somente o resumo necessário para descoberta. O perfil consulta
-uma projeção detalhada separada e apresenta identidade, geografia, população,
+O catálogo entrega somente o resumo necessário para descoberta. O perfil lê uma
+projeção detalhada do snapshot e apresenta identidade, geografia, população,
 idiomas, moedas, códigos e conectividade em grupos compreensíveis.
 
 ![Perfil localizado de Cabo Verde com bandeira, dados principais e seções temáticas](./docs/images/atlasia-country-profile.jpg)
@@ -76,37 +76,34 @@ O runner, o método, as causas medidas e as otimizações realizadas estão em
 ## Arquitetura
 
 Atlasia usa uma arquitetura **feature-first com Clean Architecture proporcional**.
-A fronteira volátil — REST Countries — fica isolada, enquanto regras de domínio,
-busca e formatação permanecem testáveis sem React, Next.js ou rede.
+A fronteira volátil fica no gerador manual do snapshot, enquanto produção, regras de
+domínio, busca e formatação permanecem testáveis sem React, Next.js ou rede.
 
 ```mermaid
 flowchart LR
     Browser["Browser<br/>rotas localizadas"] --> App["Next.js App Router<br/>Server Components"]
-    App --> Queries["Queries<br/>orquestração e cache"]
-    Queries --> Adapter["Adaptador server-only<br/>REST Countries v5"]
-    Adapter --> Validation["Schemas externos<br/>Zod"]
-    Validation --> Domain["Normalização<br/>modelos internos"]
+    App --> Queries["Queries server-only<br/>memoização por render"]
+    Queries --> Snapshot["Snapshot versionado<br/>250 países"]
+    Snapshot --> Validation["Schemas internos<br/>Zod"]
+    Validation --> Domain["CountrySummary<br/>CountryDetail"]
     Domain --> App
     App --> Islands["Client Components<br/>busca, filtros e locale"]
-    Adapter --> API["REST Countries API"]
+    Source["Dataset aberto<br/>mledoze/countries"] --> Generator["data:refresh<br/>execução manual"]
+    Generator --> Snapshot
 ```
 
 ### Fluxo dos dados
 
-1. A rota Server Component solicita resumos ou um perfil às queries.
-2. O adaptador monta uma URL fixa, adiciona a credencial apenas no servidor e
-   pede somente os campos necessários.
-3. A resposta externa entra como `unknown` e precisa passar pelos schemas Zod.
-4. Normalizadores puros convertem o contrato do provedor em modelos internos
-   estáveis: `CountrySummary` e `CountryDetail`.
-5. A interface recebe apenas dados validados e serializáveis.
-6. Respostas bem-sucedidas usam revalidação diária; leituras equivalentes dentro
-   da mesma renderização são deduplicadas.
+1. O comando manual `data:refresh` baixa o dataset aberto e normaliza os campos.
+2. O JSON resultante é versionado junto ao código e incluído no build.
+3. Na inicialização, o snapshot inteiro precisa passar pelo schema Zod de detalhe.
+4. A rota Server Component solicita resumos ou um perfil às queries server-only.
+5. A interface recebe somente `CountrySummary` ou `CountryDetail` validados.
+6. Leituras equivalentes dentro da mesma renderização são deduplicadas pelo React.
 
-Essa direção de dependências impede que mudanças futuras na API contaminem os
-componentes ou o domínio. Não há uma hierarquia artificial de classes,
-repositórios e casos de uso: novas abstrações só entram quando houver uma
-substituição real, como outro provedor.
+Essa direção de dependências impede que mudanças futuras na fonte contaminem os
+componentes ou o domínio. Visitantes, robôs, builds e deploys não consomem cota nem
+dependem da disponibilidade de uma API de dados.
 
 ### Estrutura de pastas
 
@@ -144,10 +141,10 @@ Cada dependência direta tem uma responsabilidade concreta:
 | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Next.js 16 / App Router**          | Entrega Server Components, layouts aninhados, metadata, sitemap, route states e cache no mesmo modelo. A renderização server-first reduz JavaScript no navegador e fortalece SEO.        |
 | **React 19**                         | Base declarativa dos componentes e das pequenas ilhas interativas; a maior parte da aplicação continua no servidor.                                                                      |
-| **TypeScript strict**                | Torna contratos e estados explícitos e detecta quebras entre API, domínio e apresentação antes da execução.                                                                              |
+| **TypeScript strict**                | Torna contratos e estados explícitos e detecta quebras entre fonte, domínio e apresentação antes da execução.                                                                            |
 | **next-intl**                        | Centraliza locale, dicionários, navegação e pathnames localizados sem criar duas árvores de páginas. Também preserva o país atual durante a troca de idioma.                             |
-| **Zod 4**                            | Valida ambiente, parâmetros e payloads externos em runtime. TypeScript não protege contra uma resposta real da API que mudou.                                                            |
-| **REST Countries v5**                | Fonte especializada dos dados geográficos. É acessada somente pelo servidor, com projeções distintas para catálogo e perfil.                                                             |
+| **Zod 4**                            | Valida ambiente, parâmetros e o snapshot completo em runtime. TypeScript não protege contra dados versionados incompatíveis.                                                             |
+| **mledoze/countries**                | Fonte aberta usada somente pelo comando de atualização. O resultado normalizado é versionado; nenhuma consulta externa ocorre durante navegação ou build.                                |
 | **shadcn/ui + Base UI**              | Fornece primitivas acessíveis e código sob controle do projeto. Os componentes são compostos e tematizados; a identidade visual não depende de um tema pronto.                           |
 | **Tailwind CSS 4**                   | Mantém estilos próximos aos componentes e sustenta tokens semânticos de tinta, pergaminho, bronze e oceano. O CSS crítico é inlined pelo Next.js para reduzir o caminho de renderização. |
 | **CVA, `clsx` e `tailwind-merge`**   | Organizam variantes e combinam classes previsivelmente sem espalhar condicionais ou conflitos de utilitários.                                                                            |
@@ -166,7 +163,7 @@ Cada dependência direta tem uma responsabilidade concreta:
   hidratam no cliente.
 - **Resumo e detalhe separados:** o catálogo não paga pelo payload do perfil.
 - **Código ISO na URL:** identificador estável, independente da tradução do nome.
-- **API server-only:** a credencial nunca precisa entrar no bundle do navegador.
+- **Snapshot local:** visitantes não dependem de API de dados, credencial ou cota.
 - **Validação na fronteira:** payload externo não é confiável até passar pelo Zod.
 - **shadcn como primitiva:** comportamento reutilizado, direção visual autoral.
 - **Página antes de modal:** melhor compartilhamento, indexação e progressive
@@ -186,7 +183,7 @@ requisições sem prefixo, e todas as rotas públicas mantêm o locale explícit
 
 O teste de paridade dos dicionários impede que uma chave exista em apenas um
 idioma. Números, população, área, moedas e nomes de países usam as APIs `Intl`.
-Valores editoriais vindos apenas em inglês da API passam por localizadores
+Valores editoriais disponíveis apenas em inglês no snapshot passam por localizadores
 explícitos, com fallback seguro para termos ainda desconhecidos.
 
 ## SEO e dados estruturados
@@ -224,9 +221,9 @@ O resultado e as limitações estão documentados em
 O site não possui login, banco de dados ou mutações públicas. Por isso, a defesa
 é proporcional à superfície real:
 
-- `REST_COUNTRIES_API_KEY` validada e importada somente em módulos `server-only`;
-- URL do provedor constante e parâmetros ISO validados antes do fetch;
-- respostas externas tratadas como desconhecidas e validadas com Zod;
+- nenhuma credencial de dados é necessária em produção;
+- atualização externa isolada em script manual, fora do caminho de requisição;
+- snapshot versionado e parâmetros ISO validados com Zod antes do uso;
 - mensagens de erro controladas, sem payload, stack ou segredo;
 - CSP restritiva e allowlist específica para as bandeiras;
 - HSTS em produção, proteção contra clickjacking e MIME sniffing;
@@ -243,7 +240,6 @@ A análise completa e os riscos residuais estão em
 
 - Node.js **20.9 ou superior**.
 - npm.
-- Uma credencial válida da REST Countries API v5.
 
 ### Instalação
 
@@ -269,13 +265,11 @@ Preencha as variáveis:
 
 ```dotenv
 SITE_URL=http://localhost:3000
-REST_COUNTRIES_API_KEY=sua-chave-aqui
 ```
 
-| Variável                 | Obrigatória | Descrição                                                                                                                                                                      |
-| ------------------------ | :---------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `SITE_URL`               |     Sim     | Origem absoluta usada em canonical, sitemap, Open Graph e JSON-LD. Aceita HTTPS ou HTTP apenas em `localhost`/`127.0.0.1`. Não inclua barra final, path, query ou credenciais. |
-| `REST_COUNTRIES_API_KEY` |     Sim     | Bearer token lido exclusivamente pelo servidor para consultar a API v5.                                                                                                        |
+| Variável   | Obrigatória | Descrição                                                                                                                                                                      |
+| ---------- | :---------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `SITE_URL` |     Sim     | Origem absoluta usada em canonical, sitemap, Open Graph e JSON-LD. Aceita HTTPS ou HTTP apenas em `localhost`/`127.0.0.1`. Não inclua barra final, path, query ou credenciais. |
 
 Inicie o ambiente de desenvolvimento:
 
@@ -301,6 +295,7 @@ do navegador e redireciona para um locale suportado.
 | `npm run test:e2e:smoke`  | Faz build e executa os nove percursos críticos marcados com `@smoke`. |
 | `npm run test:e2e:ui`     | Abre a interface do Playwright para investigação local.               |
 | `npm run test:lighthouse` | Faz build, audita catálogo e perfil três vezes e aplica os budgets.   |
+| `npm run data:refresh`    | Atualiza manualmente o snapshot versionado de países.                 |
 
 Os relatórios Lighthouse são gravados em `.lighthouse/` e não são versionados.
 Para uma iteração mais curta:
@@ -340,24 +335,22 @@ npm run test:lighthouse
 
 1. Importe o repositório na Vercel.
 2. Mantenha o preset de framework como **Next.js**.
-3. Cadastre `REST_COUNTRIES_API_KEY` como variável protegida nos ambientes
-   necessários.
-4. Defina `SITE_URL=https://atlasia-world.vercel.app` em produção.
-5. Faça o deploy e confirme `/robots.txt`, `/sitemap.xml`, os dois locales,
+3. Defina `SITE_URL=https://atlasia-world.vercel.app` em produção.
+4. Faça o deploy e confirme `/robots.txt`, `/sitemap.xml`, os dois locales,
    um perfil e os headers de segurança.
-6. Execute novamente os smoke tests e o Lighthouse contra a versão candidata
+5. Execute novamente os smoke tests e o Lighthouse contra a versão candidata
    antes de divulgar o domínio.
 
-> [!WARNING]
-> Não use `NEXT_PUBLIC_` na credencial e não copie o conteúdo do `.env` para
-> configurações client-side. O repositório versiona somente `.env.example`.
+> [!NOTE]
+> `npm run data:refresh` exige rede, mas navegação, build e deploy usam somente o
+> snapshot já versionado.
 
 ## Próximas evoluções
 
 - Modal de perfil com rota interceptada, preservando a página canônica.
 - Monitoramento de Core Web Vitals com dados de campo.
 - Links factuais entre países relacionados.
-- Revalidação sob demanda por tag.
+- Automação periódica para propor atualizações verificadas do snapshot.
 - Novas experiências educacionais construídas sobre os mesmos modelos internos.
 
 ---

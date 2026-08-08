@@ -1,12 +1,12 @@
 # Auditoria de segurança
 
-Data da revisão: 2026-07-25
+Data da revisão: 2026-08-08
 
 ## Escopo
 
 - Configuração Next.js, CSP e headers HTTP.
 - `proxy.ts`, parâmetros dinâmicos e navegação localizada.
-- Cliente REST Countries, validação Zod, URLs externas e tratamento de erros.
+- Snapshot geográfico, gerador manual, validação Zod e parâmetros de rota.
 - Dependências de produção e desenvolvimento.
 - Arquivos rastreados, histórico de `.env` e exposição da credencial atual.
 
@@ -19,14 +19,12 @@ Data da revisão: 2026-07-25
   contexto.
 - A otimização de bandeiras respondeu com imagem PNG após a atualização
   controlada do Sharp.
-- A URL do provedor é constante e server-only. O único parâmetro inserido no
-  path é um código ISO alpha-2 validado antes do fetch e ainda codificado antes
-  de compor a URL.
+- Catálogo, perfis, sitemap e builds leem somente o snapshot versionado. Nenhuma
+  credencial ou chamada de API externa participa do caminho público.
 - URLs fornecidas pela API exigem HTTPS. Bandeiras exigem também o host
   `flags.restcountries.com` e os paths observados no contrato v5.
-- `.env` está ignorado, nunca apareceu no histórico e o valor atual da chave
-  não foi encontrado em arquivos rastreados. A busca por padrões comuns de
-  secrets também não encontrou ocorrências.
+- `.env` está ignorado e a aplicação exige apenas a origem pública `SITE_URL`.
+  A busca por padrões comuns de secrets não encontrou ocorrências.
 
 ## Decisões
 
@@ -37,6 +35,9 @@ Data da revisão: 2026-07-25
 - Nonce por request foi descartado porque tornaria as páginas dinâmicas e
   eliminaria o cache estático sem benefício proporcional para este site
   público, somente leitura e sem autenticação.
+- O dataset externo é acessado apenas por `npm run data:refresh`. O comando grava
+  um novo snapshot somente após receber uma coleção plausível; o build valida
+  cada registro novamente com o schema interno.
 - PostCSS e Sharp usam overrides explícitos enquanto as versões corrigidas não
   fazem parte da faixa publicada pelo Next.js 16.2.11. Build, imagem otimizada,
   testes unitários e testes de navegador cobrem esses overrides.

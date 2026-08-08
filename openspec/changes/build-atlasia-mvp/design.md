@@ -2,7 +2,7 @@
 
 O repositório atual contém uma instalação limpa de Next.js 16.2.11, React 19, TypeScript e Tailwind CSS 4. O projeto anterior comprova a direção do produto e fornece logo e favicon, mas sua integração usa o contrato descontinuado da REST Countries v3.1 e não possui validação de runtime, internacionalização ou biblioteca de componentes.
 
-Atlasia será público, sem autenticação e sem banco de dados. A REST Countries atual exige autenticação, possui um contrato amplo e pode mudar independentemente da aplicação. A credencial não pode chegar ao browser. O projeto também precisa funcionar como peça de portfólio: arquitetura compreensível, UI autoral, acessibilidade, SEO, testes e histórico de commits legível importam tanto quanto o catálogo.
+Atlasia será público, sem autenticação e sem banco de dados. Dados geográficos mudam lentamente, enquanto APIs externas possuem cota, disponibilidade e contratos independentes da aplicação. Um snapshot versionado elimina essa dependência do caminho público. O projeto também precisa funcionar como peça de portfólio: arquitetura compreensível, UI autoral, acessibilidade, SEO, testes e histórico de commits legível importam tanto quanto o catálogo.
 
 ## Goals / Non-Goals
 
@@ -10,7 +10,7 @@ Atlasia será público, sem autenticação e sem banco de dados. A REST Countrie
 
 - Preservar a identidade “atlas editorial de explorador” do projeto anterior.
 - Criar fundação bilíngue `pt-BR` e `en` antes das páginas de produto.
-- Isolar REST Countries atrás de uma fronteira server-only validada por Zod.
+- Isolar atualização externa em um gerador manual e validar o snapshot com Zod.
 - Usar páginas e componentes server-first, limitando JavaScript cliente à descoberta interativa.
 - Usar shadcn/ui como conjunto de primitivas acessíveis e personalizá-lo por tokens semânticos.
 - Oferecer catálogo rápido e perfil rico de país com URLs estáveis.
@@ -88,7 +88,7 @@ Alternativa considerada: separar tudo por tipo global (`lib`, `types`, `services
 
 ### 2. Duas consultas server-only com projeções diferentes
 
-A homepage buscará somente dados necessários para catálogo: código ISO, nomes, bandeira, capital, região e população. A página individual buscará o país pelo código ISO com uma projeção mais rica. Ambos os payloads serão validados na entrada e normalizados antes de sair da feature.
+A homepage lerá somente os dados necessários para catálogo: código ISO, nomes, bandeira, capital, região e população. A página individual lerá o país pelo código ISO com uma projeção mais rica. O snapshot completo será validado na entrada antes de sair da feature.
 
 O código ISO alpha-2 será a identidade canônica e o parâmetro de rota. Isso mantém a mesma URL lógica ao trocar idioma e evita slugs dependentes de tradução. A UI poderá exibir nomes localizados usando `Intl.DisplayNames`, com o nome retornado pela API como fallback.
 
@@ -98,13 +98,13 @@ Alternativa considerada: buscar todos os campos de todos os países na homepage.
 
 Haverá schemas separados para o payload externo resumido, o payload externo detalhado e os modelos internos. Tipos TypeScript serão inferidos com `z.infer`; JSON externo será tratado como `unknown` e validado uma vez com `safeParse` na fronteira.
 
-Falhas de rede, autenticação e contrato serão convertidas em erros de domínio distinguíveis. Componentes nunca conhecerão nomes de campos da REST Countries.
+Falhas de geração ou contrato interromperão a atualização antes de substituir o último snapshot válido. Componentes nunca conhecerão nomes de campos da fonte externa.
 
 Alternativa considerada: interfaces TypeScript manuais com type assertion. Rejeitada porque não oferecem segurança em runtime contra mudanças do provedor.
 
 ### 4. Dependency Rule proporcional ao tamanho do produto
 
-O modelo, schemas internos, normalizadores, formatadores e busca serão funções puras sem imports de Next.js, React ou `fetch`. O adaptador REST Countries poderá depender do domínio; o domínio não conhecerá o adaptador. Queries orquestrarão adaptador e normalização; rotas chamarão queries.
+O modelo, schemas internos, formatadores e busca serão funções puras sem imports de Next.js, React ou `fetch`. O módulo de dados validará o snapshot; queries server-only lerão os modelos internos e rotas chamarão essas queries.
 
 Não será criada uma hierarquia cerimonial de entidades, casos de uso, repositórios e classes para operações simples. Uma porta abstrata só será extraída quando surgir um segundo provedor, snapshot persistente ou necessidade real de substituição. Assim, a fronteira volátil permanece isolada sem complexidade acidental.
 
@@ -134,7 +134,7 @@ Tokens semânticos em `globals.css` representarão tinta, pergaminho, bronze, oc
 
 Páginas e busca de dados serão Server Components por padrão. Somente controles de busca/filtro e seletor de locale serão Client Components. O cliente receberá apenas o modelo resumido serializável.
 
-As requisições externas usarão revalidação diária e tags próprias. Consultas usadas simultaneamente por metadata e página serão memoizadas por request para evitar trabalho duplicado. Falha sem cache válido renderizará estado de erro controlado; não haverá snapshot persistente no MVP.
+Catálogo e perfis usarão um snapshot completo, versionado e validado com Zod. Consultas usadas simultaneamente por metadata e página serão memoizadas por request para evitar trabalho duplicado. Atualizações externas ocorrerão somente por comando manual; navegação, build e deploy não dependerão de cota, credencial ou disponibilidade do provedor.
 
 ### 9. Perfil rico organizado, não dump de JSON
 
@@ -173,7 +173,7 @@ Testes unitários cobrirão validação, normalização, localização e filtro;
 
 ### 14. Segurança proporcional e defesa em profundidade
 
-O site não possui autenticação, banco ou mutações públicas, portanto controles de sessão, CSRF e autorização não serão adicionados sem uma superfície correspondente. A credencial da REST Countries permanecerá em módulo `server-only`, a URL externa será fixa e validada, parâmetros de rota serão tratados como entrada não confiável e respostas externas serão validadas antes do uso.
+O site não possui autenticação, banco, credenciais de dados ou mutações públicas, portanto controles de sessão, CSRF e autorização não serão adicionados sem uma superfície correspondente. Parâmetros de rota serão tratados como entrada não confiável e o snapshot será validado antes do uso.
 
 O Next.js enviará CSP, `Permissions-Policy`, `Referrer-Policy`, proteção contra MIME sniffing, clickjacking e HSTS em produção, além de ocultar `X-Powered-By`. A CSP inicial preservará geração estática; nonce por request foi rejeitado porque forçaria renderização dinâmica em todas as páginas. Os hosts de imagem serão restringidos após confirmar o contrato real da API, sem liberar scripts ou conexões externas desnecessárias.
 
@@ -181,18 +181,18 @@ Dependências serão verificadas com auditoria reproduzível, arquivos de ambien
 
 ## Risks / Trade-offs
 
-- [REST Countries exigir chave, limitar cota ou alterar contrato] → Manter credencial server-only, projeções mínimas, cache diário, schemas Zod e erro de domínio.
+- [Fonte geográfica ficar indisponível ou mudar contrato] → Preservar o último snapshot versionado; falhar a atualização antes de substituir dados válidos.
 - [“Mostrar tudo” gerar página extensa e confusa] → Exibir todos os campos selecionados em grupos progressivos; não expor payload bruto.
 - [Localização incompleta de dados externos] → Localizar interface, números e nomes via `Intl`; manter valores factuais externos com fallback claro.
 - [shadcn deixar visual genérico] → Usar componentes como primitivas e concentrar identidade em tokens, composição, tipografia e atmosfera.
 - [Arquitetura feature-first parecer maior no início] → Manter apenas uma feature real e evitar camadas sem responsabilidade concreta.
 - [Aplicar Clean Architecture de forma cerimonial] → Preservar somente fronteiras de volatilidade e criar abstrações quando houver consumidor real.
 - [Cache diário mostrar dados levemente antigos] → Aceitar defasagem para dados geográficos estáveis; permitir revalidação futura por tag.
-- [Página sem API durante desenvolvimento] → Documentar variável de ambiente e fornecer estados de erro; fixtures existirão somente em testes.
+- [Fonte externa indisponível durante atualização] → Manter o snapshot versionado anterior e falhar o comando sem sobrescrevê-lo.
 - [Lighthouse variar entre execuções] → Rodar build de produção em ambiente controlado, guardar relatórios e usar orçamento junto às métricas individuais.
 - [Schema gerar rich result enganoso] → Marcar somente conteúdo visível e validar no Schema.org Validator e Google Rich Results Test quando aplicável.
 - [CSP quebrar recursos legítimos ou ficar permissiva demais] → Testar em build de produção e restringir diretivas a partir dos hosts realmente usados, mantendo relatório claro das exceções.
-- [Credencial ou detalhes da API vazarem ao cliente] → Isolar integração em módulo `server-only`, validar ambiente e revisar bundles, mensagens de erro e logs.
+- [Dados malformados entrarem no snapshot] → Validar todos os registros com Zod em testes e no build antes de renderizar.
 
 ## Migration Plan
 
@@ -209,4 +209,4 @@ Cada etapa será um ponto seguro de commit. Em caso de regressão, o rollback oc
 ## Open Questions
 
 - O modal com rota interceptada será avaliado somente após a página dedicada estar aprovada.
-- A seleção final de campos detalhados será ajustada ao contrato real retornado pela conta REST Countries durante a etapa de integração, sem quebrar o modelo de apresentação definido aqui.
+- A seleção final de campos detalhados será ajustada ao contrato observado na fonte do snapshot, sem quebrar o modelo de apresentação definido aqui.

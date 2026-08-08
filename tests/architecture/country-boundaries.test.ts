@@ -16,6 +16,33 @@ const forbiddenDependencies = [
   /\bfetch\s*\(/,
 ]
 
+const runtimeCountryDataFiles = [
+  join(
+    process.cwd(),
+    "src",
+    "features",
+    "countries",
+    "data",
+    "country-snapshot.ts",
+  ),
+  join(
+    process.cwd(),
+    "src",
+    "features",
+    "countries",
+    "queries",
+    "get-countries.ts",
+  ),
+  join(
+    process.cwd(),
+    "src",
+    "features",
+    "countries",
+    "queries",
+    "get-country.ts",
+  ),
+]
+
 function collectTypeScriptFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const entryPath = join(directory, entry.name)
@@ -44,6 +71,16 @@ describe("country dependency boundaries", () => {
       for (const forbiddenDependency of forbiddenDependencies) {
         expect(source, file).not.toMatch(forbiddenDependency)
       }
+    }
+  })
+
+  it("keeps public country reads independent from external APIs", () => {
+    for (const file of runtimeCountryDataFiles) {
+      const source = readFileSync(file, "utf8")
+
+      expect(source, file).not.toMatch(/features\/countries\/api/)
+      expect(source, file).not.toMatch(/\bfetch\s*\(/)
+      expect(source, file).not.toMatch(/REST_COUNTRIES_API_KEY/)
     }
   })
 })

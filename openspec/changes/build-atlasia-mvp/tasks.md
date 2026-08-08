@@ -19,7 +19,7 @@
 
 ## 3. Arquitetura, ambiente e domínio
 
-- [x] 3.1 Criar configuração server-only de ambiente com schema Zod para URL pública e credencial REST Countries
+- [x] 3.1 Criar configuração server-only de ambiente com schema Zod para URL pública
 - [x] 3.2 Criar schemas Zod externos separados para resumo e detalhe usando payloads reais anonimizados como fixtures
 - [x] 3.3 Criar schemas e tipos inferidos dos modelos internos `CountrySummary` e `CountryDetail`
 - [x] 3.4 Implementar normalizadores puros entre contratos externos e modelos internos, com testes de campos completos e ausentes
@@ -31,7 +31,7 @@
 
 - [x] 4.1 Implementar cliente server-only para catálogo com projeção mínima de campos, autenticação e validação Zod
 - [x] 4.2 Implementar cliente server-only para perfil por código ISO com projeção detalhada e validação Zod
-- [x] 4.3 Configurar revalidação diária, tags de cache e memoização por request nas queries de país
+- [x] 4.3 Versionar snapshot validado e memoizar por request as queries de país
 - [x] 4.4 Mapear respostas HTTP e falhas de parsing para os erros de domínio sem vazar informações sensíveis
 - [x] 4.5 Testar cliente e queries com fetch simulado para sucesso, ausência, autenticação, rate limit, rede e schema inválido
 - [x] 4.6 Executar uma verificação manual autenticada contra a API atual e ajustar somente o adaptador ao contrato observado
@@ -81,7 +81,7 @@
 ## 9. Segurança
 
 - [x] 9.1 Configurar CSP estática e headers defensivos globais sem sacrificar a geração estática
-- [x] 9.2 Isolar ambiente e credencial REST Countries em módulo `server-only` validado, sem exposição em bundles, erros ou logs
+- [x] 9.2 Remover credencial e chamadas externas do caminho público de dados
 - [x] 9.3 Restringir CSP e hosts de imagem ao contrato real observado e validar headers em build de produção
 - [x] 9.4 Auditar parâmetros dinâmicos, `proxy.ts` e fetch externo contra injeção, SSRF e exposição de informações
 - [x] 9.5 Executar auditoria de dependências e verificação de secrets antes da entrega, resolvendo achados de alto risco
